@@ -35,7 +35,7 @@ public class AdminRestController {
     @GetMapping("/orders")
     public ResponseEntity<?> getAllOrder(@NotNull @RequestParam int page){
         try{
-            return new ResponseEntity<>(orderService.getAllOrder(page), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -45,7 +45,7 @@ public class AdminRestController {
     @GetMapping("/customers")
     public ResponseEntity<?> getAllCustomer(@NotNull @RequestParam int page){
         try{
-            return new ResponseEntity<>(customerService.getAll(page), HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -57,7 +57,7 @@ public class AdminRestController {
     @GetMapping("/addresses")
     public ResponseEntity<?> getAllAddress(@NotNull @RequestParam int page){
         try{
-            return new ResponseEntity<>(addressService.getAll(page), HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -68,7 +68,7 @@ public class AdminRestController {
     @GetMapping("/restaurants")
     public ResponseEntity<?> getAllRestaurant(@NotNull @RequestParam int page){
         try{
-            return new ResponseEntity<>(restaurantService.getAllRestaurant(page), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -78,7 +78,6 @@ public class AdminRestController {
     @GetMapping("/make-admin")
     public ResponseEntity<?> makeAdmin(@NotNull @RequestParam String id){
         try{
-            customerService.superAdmin(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());

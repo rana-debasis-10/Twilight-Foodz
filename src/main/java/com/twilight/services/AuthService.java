@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AuthService {
+public class  AuthService {
     private final AuthenticationManager authenticationManager;
 
     private final PasswordEncoder passwordEncoder;

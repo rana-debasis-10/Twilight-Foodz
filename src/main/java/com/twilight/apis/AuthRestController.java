@@ -33,7 +33,7 @@ public class AuthRestController {
     @Validated
     public ResponseEntity<?> register(@RequestBody BasicUserDetails basicUserDetails){
         try {
-            return new ResponseEntity<>(authService.register(basicUserDetails), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
             log.error(e.getMessage());
@@ -47,7 +47,7 @@ public class AuthRestController {
     @Validated
     public ResponseEntity<?>login(@RequestBody LoginDetails loginDetails){
         try{
-            return new ResponseEntity<>(authService.login(loginDetails), HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -60,7 +60,7 @@ public class AuthRestController {
     @Validated
     public ResponseEntity<?> startOnboarding(@RequestParam String type, @RequestBody BasicUserDetails basicUserDetails){
         try{
-            return new ResponseEntity<>(onBoardingService.startOnBoarding(basicUserDetails,OnBoarder.valueOf(type.toUpperCase())),HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

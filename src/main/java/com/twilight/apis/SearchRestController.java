@@ -26,7 +26,7 @@ public class SearchRestController {
     @GetMapping("/restaurant")
     ResponseEntity<?> findRestaurant(@RequestParam String name, @RequestParam int page){
         try{
-            return new ResponseEntity<>(restaurantService.getRestaurantByName(name, page),HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(Exception e){
             log.error(e.getMessage());
@@ -36,7 +36,7 @@ public class SearchRestController {
     @GetMapping("/food")
     ResponseEntity<?> findFood(@RequestParam String name, @RequestParam int page){
         try{
-            return new ResponseEntity<>(foodService.search(name,page),HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(Exception e){
             log.error(e.getMessage());

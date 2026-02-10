@@ -24,7 +24,6 @@ public class OnBoardingRestController {
     @PostMapping("/kyc")
     public ResponseEntity<?> knowYourCustomer(@RequestBody KycRequest kyc){
         try{
-            onBoardingService.doKyc(kyc);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
@@ -37,7 +36,7 @@ public class OnBoardingRestController {
     public ResponseEntity<?>  completeForMerchant(@RequestBody RestaurantCreateRequest request){
         try{
 
-            return new ResponseEntity<>(onBoardingService.completeOnboardingForRestaurant(request),HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -46,7 +45,7 @@ public class OnBoardingRestController {
     }
     public ResponseEntity<?> completeDriver(@RequestBody VehicleRequest request){
         try{
-            return new ResponseEntity<>(onBoardingService.completeOnBoardingForDriver(request),HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());

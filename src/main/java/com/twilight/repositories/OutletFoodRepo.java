@@ -11,6 +11,7 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 public interface OutletFoodRepo extends JpaRepository<@NonNull OutletFood,@NonNull String> {
+
     @Query("""
     SELECT new com.twilight.dataTransferObjects.response.component.FoodResponse(
         op.id,
@@ -22,7 +23,7 @@ public interface OutletFoodRepo extends JpaRepository<@NonNull OutletFood,@NonNu
     )
     FROM OutletFood op
     JOIN op.food f
-    WHERE op.outlet.id = :outletId
+    WHERE op.outlet = :outletId
     AND op.available = true
     AND LOWER(f.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
     """)

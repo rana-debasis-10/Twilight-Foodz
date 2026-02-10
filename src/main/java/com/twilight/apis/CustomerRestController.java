@@ -34,7 +34,7 @@ public class CustomerRestController {
             UserDetailsImpl userDetails = (UserDetailsImpl) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
             assert userDetails != null;
             String customerId = userDetails.getId();
-            return new ResponseEntity<>(orderService.getOrders(customerId,page), HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -52,7 +52,7 @@ public class CustomerRestController {
             String mobNo = userDetails.getMobNo();
             System.out.println(customerId+" "+mobNo);
 
-            return new ResponseEntity<>(orderService.createOrder(customerId,mobNo,orderRequest), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -63,7 +63,7 @@ public class CustomerRestController {
     @GetMapping("/order/items")
     public ResponseEntity<?> viewOrderItems(@RequestParam String order, @RequestParam int page){
         try{
-            return new ResponseEntity<>(itemService.getForOrder(order,page), HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (Exception e) {
             log.error(e.getMessage());

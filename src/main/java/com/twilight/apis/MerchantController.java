@@ -29,7 +29,7 @@ public class MerchantController {
     @PostMapping("/food")//Path to be declared
     public ResponseEntity<?> createProduct(@RequestBody List<FoodRequest> request) {
         try{
-            merchantService.createFood(request);
+
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
