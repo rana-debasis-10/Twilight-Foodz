@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
 import com.twilight.annotations.*;
 import com.twilight.dataTransferObjects.authentication.BasicUserDetails;
@@ -48,7 +48,7 @@ public class Customer {
     private boolean enabled = true;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CustomerOrder> orders=new ArrayList<>();
+    private List<Order> orders=new ArrayList<>();
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Driver driver;

@@ -1,14 +1,13 @@
 package com.twilight.services;
 
-import com.twilight.components.database.Food;
-import com.twilight.components.database.Merchant;
-import com.twilight.components.database.Restaurant;
-import com.twilight.components.security.UserDetailsImpl;
+import com.twilight.objects.database.Product;
+import com.twilight.objects.database.Merchant;
+import com.twilight.objects.database.Restaurant;
+import com.twilight.objects.security.UserDetailsImpl;
 import com.twilight.dataTransferObjects.request.FoodRequest;
 import com.twilight.dataTransferObjects.response.component.MerchantResponse;
 import com.twilight.exceptions.LimitExceeded;
 import com.twilight.exceptions.UserAlreadyExists;
-import com.twilight.repositories.CustomerRepo;
 import com.twilight.repositories.MerchantRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -64,9 +63,9 @@ public class MerchantService {
             throw new LimitExceeded(request.size());
         }
 
-        List<Food> foods = request.stream().map(Food::new).toList();
-        restaurant.getFoods().addAll(foods);
-        foods.forEach(food -> {food.setRestaurant(restaurant);});
+        List<Product> products = request.stream().map(Product::new).toList();
+        restaurant.getProducts().addAll(products);
+        products.forEach(food -> {food.setRestaurant(restaurant);});
         restaurantService.saveRestaurant(restaurant);
     }
 

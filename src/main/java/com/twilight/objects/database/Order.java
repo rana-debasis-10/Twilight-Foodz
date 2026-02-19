@@ -1,6 +1,5 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
-import com.twilight.annotations.ValidEmail;
 import com.twilight.annotations.ValidMobileNumber;
 import com.twilight.dataTransferObjects.request.CustomerOrderRequest;
 import com.twilight.types.Currency;
@@ -14,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +21,7 @@ import java.util.List;
 @Table(name = "Orders")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerOrder {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -57,17 +55,17 @@ public class CustomerOrder {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId")
-    private Address address;
+    private Location location;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Item> items;
 
-    public CustomerOrder(CustomerOrderRequest orderDetails, String receipt , Currency currency) {
+    public Order(CustomerOrderRequest orderDetails, String receipt , Currency currency) {
         this.createdAt = Instant.now();
         this.paymentMethod = orderDetails.paymentMethod();
         this.deliveryStatus = DeliveryStatus.ORDER_MADE;
         this.paymentStatus = PaymentStatus.PENDING;
-        this.address = new Address( orderDetails .addressDetails());
+        this.location = new Location( orderDetails .addressDetails());
         this.receipt = receipt;
         this.currency = currency;
     }

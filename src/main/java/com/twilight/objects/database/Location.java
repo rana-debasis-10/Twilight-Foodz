@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 import com.twilight.dataTransferObjects.request.AddressDetails;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address {
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,12 +21,12 @@ public class Address {
     private String landMark;
 
     @OneToOne(mappedBy = "address")
-    private CustomerOrder order;
+    private Order order;
     @OneToOne(mappedBy = "address")
     private Outlet outlet;
 
 
-    public Address (AddressDetails request){
+    public Location(AddressDetails request){
         this.street = request.street();
         this.city = request.city();
         this.state = request.state();

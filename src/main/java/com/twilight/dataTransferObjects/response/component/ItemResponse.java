@@ -1,6 +1,6 @@
 package com.twilight.dataTransferObjects.response.component;
 
-import com.twilight.components.database.Item;
+import com.twilight.objects.database.Item;
 
 public record ItemResponse (String id,
                             String name,

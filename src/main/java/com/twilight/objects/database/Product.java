@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
 import com.twilight.dataTransferObjects.request.FoodRequest;
 import com.twilight.dataTransferObjects.request.FoodUpdateRequest;
@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Food {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -31,14 +31,14 @@ public class Food {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<OutletFood> outletFood;
+    private List<Food> food;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Restaurant restaurant;
 
 
-    public Food (FoodRequest request){
+    public Product(FoodRequest request){
         this.name=request.name();
         this.price= request.price();
         this.description= request.description();

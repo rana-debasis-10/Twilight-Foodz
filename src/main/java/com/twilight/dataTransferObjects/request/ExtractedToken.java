@@ -1,6 +1,6 @@
 package com.twilight.dataTransferObjects.request;
 
-import com.twilight.components.security.UserDetailsImpl;
+import com.twilight.objects.security.UserDetailsImpl;
 import com.twilight.types.Role;
 
 public record ExtractedToken(String id, Role role, String mobNo) {

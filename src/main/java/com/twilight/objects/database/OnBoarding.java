@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
 import com.twilight.types.OnBoarder;
 import com.twilight.types.OnBoardingState;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "onBoardings")
 @NoArgsConstructor
 @AllArgsConstructor
-public class OnBoardingDetails {
+public class OnBoarding {
     @Id
     private String id;
 
@@ -25,7 +25,7 @@ public class OnBoardingDetails {
     @Enumerated(value = EnumType.STRING)
     OnBoarder type;
 
-    public OnBoardingDetails(String id, OnBoarder type, OnBoardingState state) {
+    public OnBoarding(String id, OnBoarder type, OnBoardingState state) {
         this.id = id;
         this.onBoardingState = state;
         this.type = type;

@@ -1,20 +1,13 @@
 package com.twilight.services;
 
-import com.twilight.components.database.Food;
-import com.twilight.dataTransferObjects.request.FoodRequest;
-import com.twilight.dataTransferObjects.request.FoodUpdateRequest;
-import com.twilight.components.database.Restaurant;
-import com.twilight.dataTransferObjects.response.component.FoodResponse;
+import com.twilight.objects.database.Restaurant;
 import com.twilight.dataTransferObjects.response.component.RestaurantResponse;
-import com.twilight.repositories.FoodRepo;
 import com.twilight.repositories.RestaurantRepo;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 

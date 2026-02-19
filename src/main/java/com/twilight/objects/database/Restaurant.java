@@ -1,6 +1,5 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
-import com.twilight.annotations.ValidEmail;
 import com.twilight.dataTransferObjects.request.RestaurantCreateRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -8,7 +7,6 @@ import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.mapping.ToOne;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +33,12 @@ public class Restaurant {
 
     /// Products of the restaurant
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Food> foods = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     /// AddressDetails of the restaurant
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn
-    private Address address;
+    private Location location;
 
 
     @Min(value = 0)
@@ -52,7 +50,7 @@ public class Restaurant {
 
 
     public Restaurant(RestaurantCreateRequest request){
-        this.setAddress(new Address(request.addressDetails()));
+        this.setLocation(new Location(request.addressDetails()));
         this.setRating(5);
         this.setName(request.name());
     }

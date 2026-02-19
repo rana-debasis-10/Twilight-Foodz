@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,14 +11,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class OutletFood {
+public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
-    private Food food;
+    private Product product;
 
     private Double priceOverride;
     private String outletLocation;

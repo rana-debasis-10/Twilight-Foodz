@@ -1,6 +1,6 @@
-package com.twilight.components.security;
+package com.twilight.objects.security;
 
-import com.twilight.components.database.Customer;
+import com.twilight.objects.database.Customer;
 import com.twilight.types.Role;
 
 import lombok.Getter;

@@ -1,9 +1,8 @@
 package com.twilight.services;
 
-import com.twilight.components.database.*;
-import com.twilight.components.security.UserDetailsImpl;
+import com.twilight.objects.database.*;
+import com.twilight.objects.security.UserDetailsImpl;
 import com.twilight.dataTransferObjects.authentication.BasicUserDetails;
-import com.twilight.dataTransferObjects.request.ExtractedToken;
 import com.twilight.dataTransferObjects.request.KycRequest;
 import com.twilight.dataTransferObjects.request.RestaurantCreateRequest;
 import com.twilight.dataTransferObjects.request.VehicleRequest;
@@ -15,7 +14,6 @@ import com.twilight.types.OnBoarder;
 import com.twilight.types.OnBoardingState;
 import com.twilight.types.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.*;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -56,7 +53,7 @@ public class OnBoardingService {
     public String startOnBoarding(BasicUserDetails basicUserDetails, OnBoarder type) throws Exception {
         try{
             Customer customer = customerService.save(basicUserDetails);
-            onBoardingRepo.save(new OnBoardingDetails(customer.getId(), type, OnBoardingState.BASIC));
+            onBoardingRepo.save(new OnBoarding(customer.getId(), type, OnBoardingState.BASIC));
             return jwtService.generateToken(customer.getId(),customer.getRole(),customer.getMobNo());
 
         }
@@ -65,7 +62,7 @@ public class OnBoardingService {
             if (authentication.isAuthenticated()) {
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
                 assert userDetails != null;
-                onBoardingRepo.save(new OnBoardingDetails(userDetails.getId(), type, OnBoardingState.BASIC));
+                onBoardingRepo.save(new OnBoarding(userDetails.getId(), type, OnBoardingState.BASIC));
                 return jwtService.generateToken(userDetails.getId(),userDetails.getRole(),userDetails.getMobNo());
             }
             else
@@ -78,7 +75,7 @@ public class OnBoardingService {
         UserDetailsImpl userDetails = (UserDetailsImpl) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         assert userDetails != null;
         String customerId = userDetails.getId();
-        Optional<OnBoardingDetails> onBoardingDetails =onBoardingRepo.findById(customerId);
+        Optional<OnBoarding> onBoardingDetails =onBoardingRepo.findById(customerId);
         if(onBoardingDetails.isPresent()){
             switch(onBoardingDetails.get().getType()){
                 case DRIVER:
@@ -89,7 +86,7 @@ public class OnBoardingService {
             };
         }
     }
-    private void kycForMerchant(String customerId,OnBoardingDetails onBoardingDetail,KycRequest kycRequest) throws Exception {
+    private void kycForMerchant(String customerId, OnBoarding onBoardingDetail, KycRequest kycRequest) throws Exception {
         switch (onBoardingDetail.getOnBoardingState()){
             case BASIC:
                 Customer customer = customerService.getById(customerId);
@@ -106,7 +103,7 @@ public class OnBoardingService {
         }
     }
 
-    private void kycForDriver(String customerId, OnBoardingDetails onBoardingDetails, KycRequest kycRequest) throws Exception {
+    private void kycForDriver(String customerId, OnBoarding onBoardingDetails, KycRequest kycRequest) throws Exception {
         switch (onBoardingDetails.getOnBoardingState()){
             case KYC:
                 throw new Exception("Already Completed");
@@ -129,7 +126,7 @@ public class OnBoardingService {
         UserDetailsImpl userDetails = (UserDetailsImpl) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         assert userDetails != null;
         String customerId = userDetails.getId();
-        Optional<OnBoardingDetails> onBoardingDetails =onBoardingRepo.findById(customerId);
+        Optional<OnBoarding> onBoardingDetails =onBoardingRepo.findById(customerId);
         if(onBoardingDetails.isPresent()){
             if (Objects.requireNonNull(onBoardingDetails.get().getType()) == OnBoarder.RESTAURANT && onBoardingDetails.get().getOnBoardingState()==OnBoardingState.KYC ) {
                 Merchant merchant = merchantService.get(customerId);
@@ -153,7 +150,7 @@ public class OnBoardingService {
         UserDetailsImpl userDetails = (UserDetailsImpl) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         assert userDetails != null;
         String customerId = userDetails.getId();
-        Optional<OnBoardingDetails> onBoardingDetails = onBoardingRepo.findById(customerId);
+        Optional<OnBoarding> onBoardingDetails = onBoardingRepo.findById(customerId);
         if(onBoardingDetails.isPresent()){
             if (Objects.requireNonNull(onBoardingDetails.get().getType()) == OnBoarder.DRIVER && onBoardingDetails.get().getOnBoardingState()==OnBoardingState.KYC ) {
                 Optional<Driver> driver = driverRepo.findById(customerId);

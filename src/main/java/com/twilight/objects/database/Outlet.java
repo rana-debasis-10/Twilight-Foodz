@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
 import com.twilight.types.Status;
 import jakarta.persistence.*;
@@ -30,11 +30,11 @@ public class Outlet {
     private Restaurant restaurant;
 
     @OneToMany
-    private List<OutletFood> outletFoods ;
+    private List<Food> foods;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn
-    private Address address;
+    private Location location;
 
     @Enumerated(EnumType.STRING)
     private Status status;

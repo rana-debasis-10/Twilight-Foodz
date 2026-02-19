@@ -1,9 +1,7 @@
 package com.twilight.services;
 
-import com.twilight.components.database.CustomerOrder;
-import com.twilight.components.database.Food;
-import com.twilight.components.database.Item;
-import com.twilight.dataTransferObjects.request.CustomerOrderRequest;
+import com.twilight.objects.database.Order;
+import com.twilight.objects.database.Item;
 import com.twilight.dataTransferObjects.request.ItemRequest;
 import com.twilight.dataTransferObjects.response.component.FoodResponse;
 import com.twilight.dataTransferObjects.response.component.ItemResponse;
@@ -32,7 +30,7 @@ public class ItemService {
 
 
     @Transactional
-    public void addItemsToOrder(List<ItemRequest> requests, CustomerOrder order) throws Exception {
+    public void addItemsToOrder(List<ItemRequest> requests, Order order) throws Exception {
 
         List<String> foodIds = requests.stream()
                 .map(ItemRequest::foodId)

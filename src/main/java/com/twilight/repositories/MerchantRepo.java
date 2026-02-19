@@ -1,6 +1,6 @@
 package com.twilight.repositories;
 
-import com.twilight.components.database.Merchant;
+import com.twilight.objects.database.Merchant;
 import com.twilight.dataTransferObjects.response.component.MerchantResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

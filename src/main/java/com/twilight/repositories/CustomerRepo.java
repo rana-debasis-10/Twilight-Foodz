@@ -1,6 +1,6 @@
 package com.twilight.repositories;
 
-import com.twilight.components.database.Customer;
+import com.twilight.objects.database.Customer;
 import org.jspecify.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

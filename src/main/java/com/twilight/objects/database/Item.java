@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 import com.twilight.dataTransferObjects.response.component.FoodResponse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +19,7 @@ public class Item {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customerOrderId")
-    private CustomerOrder order;
+    private Order order;
 
     public Item(FoodResponse food, int quantity) {
         this.id = food.id();

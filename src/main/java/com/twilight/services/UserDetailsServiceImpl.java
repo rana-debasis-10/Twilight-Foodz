@@ -1,8 +1,8 @@
 package com.twilight.services;
 
 import org.jspecify.annotations.NonNull;
-import com.twilight.components.database.Customer;
-import com.twilight.components.security.UserDetailsImpl;
+import com.twilight.objects.database.Customer;
+import com.twilight.objects.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

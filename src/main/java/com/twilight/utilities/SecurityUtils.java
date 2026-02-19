@@ -1,6 +1,6 @@
 package com.twilight.utilities;
 
-import com.twilight.components.security.UserDetailsImpl;
+import com.twilight.objects.security.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

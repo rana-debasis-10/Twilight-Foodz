@@ -2,8 +2,8 @@ package com.twilight.services;
 
 import com.twilight.dataTransferObjects.response.component.CustomerOrderResponse;
 import com.twilight.dataTransferObjects.request.CustomerOrderRequest;
-import com.twilight.components.database.Customer;
-import com.twilight.components.database.CustomerOrder;
+import com.twilight.objects.database.Customer;
+import com.twilight.objects.database.Order;
 import com.twilight.types.Currency;
 import com.twilight.types.PaymentMethod;
 import com.twilight.repositories.OrderRepo;
@@ -44,7 +44,7 @@ public class OrderService {
                 .replace("-", "")
                 .substring(0, 20);
 
-        CustomerOrder order = new CustomerOrder(details, receipt, Currency.INR);
+        Order order = new Order(details, receipt, Currency.INR);
 
         itemService.addItemsToOrder(details.foods(), order);
 
@@ -85,7 +85,7 @@ public class OrderService {
     }
 
     /// For Admin View
-    public List<CustomerOrder> getAllOrder(int pageNum){
+    public List<Order> getAllOrder(int pageNum){
         return orderRepo.findAll(PageRequest.of(pageNum, 10)).getContent();
     }
 

@@ -1,6 +1,5 @@
 package com.twilight.services;
 
-import com.twilight.components.security.UserDetailsImpl;
 import com.twilight.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

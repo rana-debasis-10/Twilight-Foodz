@@ -1,7 +1,7 @@
 package com.twilight.services;
 
-import com.twilight.components.database.Customer;
-import com.twilight.components.security.UserDetailsImpl;
+import com.twilight.objects.database.Customer;
+import com.twilight.objects.security.UserDetailsImpl;
 import com.twilight.dataTransferObjects.authentication.BasicUserDetails;
 import com.twilight.dataTransferObjects.authentication.LoginDetails;
 import com.twilight.exceptions.UserAlreadyExists;

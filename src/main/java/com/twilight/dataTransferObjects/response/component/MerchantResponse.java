@@ -1,7 +1,7 @@
 package com.twilight.dataTransferObjects.response.component;
 
-import com.twilight.components.database.Customer;
-import com.twilight.components.database.Merchant;
+import com.twilight.objects.database.Customer;
+import com.twilight.objects.database.Merchant;
 
 public record MerchantResponse(String id,String name, String mobNo, String email, String aadhaar , String pan , String bankAccount, String ifsc) {
     public MerchantResponse(Customer customer, Merchant merchant){

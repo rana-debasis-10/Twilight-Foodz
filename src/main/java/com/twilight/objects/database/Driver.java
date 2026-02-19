@@ -1,4 +1,4 @@
-package com.twilight.components.database;
+package com.twilight.objects.database;
 
 import com.twilight.dataTransferObjects.request.KycRequest;
 import jakarta.persistence.*;

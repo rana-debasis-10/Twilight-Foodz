@@ -1,6 +1,6 @@
 package com.twilight.repositories;
 
-import com.twilight.components.database.Item;
+import com.twilight.objects.database.Item;
 
 import org.jspecify.annotations.NonNull;
 
