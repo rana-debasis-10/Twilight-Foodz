@@ -9,51 +9,18 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 import java.util.*;
 
-@Service
-@NoArgsConstructor
-@AllArgsConstructor
-public class JwtService {
-    @Value("${jwt.secret.key}")
-    private String secretKey ;
+public interface JwtService {
 
-    public String generateToken(String id, Role role, String mobNo) {
-        Map<String, Object> claims = new HashMap<>();
+    public String generateToken(String id, Role role, String mobNo) ;
 
-        return Jwts.builder()
-                .subject(id)
-                .claim("Role",role.toString())
-                .claim("Mobile",mobNo)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +1000L * 60 * 60 * 30))
-                .signWith(getKey())
-                .compact();
+    public boolean isTokenValid(String token) ;
 
-    }
-
-    private SecretKey getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            extractClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    public Claims extractClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }
+    public Claims extractClaims(String token) ;
 
 
 }

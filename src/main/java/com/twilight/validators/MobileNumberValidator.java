@@ -1,12 +1,12 @@
 package com.twilight.validators;
 
-import com.twilight.annotations.ValidMobileNumber;
+import com.twilight.annotations.MobileNumber;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.regex.Pattern;
 
-public class MobileNumberValidator implements ConstraintValidator<ValidMobileNumber, String> {
+public class MobileNumberValidator implements ConstraintValidator<MobileNumber, String> {
 
     // Regex for 10-digit Indian mobile numbers starting with 6, 7, 8, or 9
     private static final String MOBILE_PATTERN = "^[6-9]\\d{9}$";

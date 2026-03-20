@@ -1,6 +1,5 @@
 package com.twilight.filters;
 import com.twilight.types.Role;
-import com.twilight.objects.security.UserDetailsImpl;
 import com.twilight.services.JwtService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.*;

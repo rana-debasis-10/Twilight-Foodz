@@ -1,7 +1,6 @@
 package com.twilight.configurations;
 
 import com.twilight.filters.JwtAuthenticationFilter;
-import com.twilight.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

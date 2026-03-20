@@ -33,6 +33,7 @@ dependencies {
     implementation(platform("software.amazon.awssdk:bom:2.25.61"))
     implementation("software.amazon.awssdk:s3")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("org.springframework.kafka:spring-kafka")
     compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j");
     implementation ("io.jsonwebtoken:jjwt-api:0.13.0")
