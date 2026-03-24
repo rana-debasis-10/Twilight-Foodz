@@ -28,12 +28,10 @@ public class Customer {
     @NotNull(message = "Enter your name")
     private String name;
 
-    private Boolean addressAdded;
+    private boolean addressAdded;
 
-    @OneToOne
-    @JoinColumn(name = "addressId")
-    private Address primaryAddress;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Address> allAddresses;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Address> address;
+
 }

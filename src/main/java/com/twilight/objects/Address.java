@@ -25,12 +25,9 @@ public class Address {
     private String street;
     private String landMark;
 
-
-    @OneToOne(mappedBy = "primaryAddress")
-    private Customer customer1;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customerId")
-    private Customer customer2;
+    @JoinColumn
+    private Customer customer;
 
     @OneToOne(mappedBy = "address")
     private Order order;

@@ -32,7 +32,8 @@ dependencies {
     implementation( "com.razorpay:razorpay-java:1.4.8")
     implementation(platform("software.amazon.awssdk:bom:2.25.61"))
     implementation("software.amazon.awssdk:s3")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("org.springframework.boot:spring-boot-starter-cache")
 	implementation ("org.springframework.kafka:spring-kafka")
     compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j");

@@ -1,5 +1,5 @@
 package com.twilight.types;
 
 public enum PaymentMethod {
-    CASH_ON_DELIVERY, UPI, NET_BANKING, CREDIT_CARD, DEBIT_CARD
+    cash_on_delivery, upi, debit_card, credit_card, net_banking, bank_transfer
 }

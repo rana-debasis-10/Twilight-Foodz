@@ -9,6 +9,4 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface OrderRepository extends JpaRepository<@NonNull Order,@NonNull Long> {
-    Page<@NonNull Order> findByCustomerId(String customerId, Pageable pageable);
-    @NonNull Page< @NonNull Order> findAll(@NonNull Pageable pageable);
 }

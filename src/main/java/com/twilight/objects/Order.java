@@ -59,8 +59,8 @@ public class Order {
     public Order(OrderR orderDetails, String receipt ) {
         this.createdAt = Instant.now();
         this.paymentMethod = orderDetails.paymentMethod();
-        this.deliveryStatus = DeliveryStatus.ORDER_MADE;
-        this.paymentStatus = PaymentStatus.PENDING;
+        this.deliveryStatus = DeliveryStatus.ordered;
+        this.paymentStatus = PaymentStatus.pending;
         this.address = new Address( orderDetails .addressR());
         this.receipt = receipt;
     }
