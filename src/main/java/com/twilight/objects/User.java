@@ -29,7 +29,7 @@ public class User {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Customer customer;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

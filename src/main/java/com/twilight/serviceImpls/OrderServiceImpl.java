@@ -5,9 +5,14 @@ import com.twilight.dataTransferObjects.OrderR;
 import com.twilight.services.OrderService;
 
 import java.util.List;
+import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
-    public Map<String, Object> createOrder(String mobNo ,OrderR details);
+
+    @Override
+    public Object createOrder(String mobNo , OrderR details){
+        return null;
+    };
 
     @Override
     public List<Object> getOrders(String mobNo, int page) {
@@ -19,8 +24,4 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
-    @Override
-    public Object createOrder(String mobNo, OrderR order) throws Exception {
-        return null;
-    }
 }

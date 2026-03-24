@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Merchant {
     @Id
-    private String id;
+    private String mobNo;
 
     @MapsId
     @JoinColumn
