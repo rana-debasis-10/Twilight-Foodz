@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/driver/**")
                         .hasAnyRole("ADMIN", "DRIVER")
 
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
 
                 .httpBasic(AbstractHttpConfigurer::disable)

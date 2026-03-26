@@ -21,15 +21,14 @@ public class MessageServiceImpl implements MessageService {
     private String endpointUrl;
 
     private final RestTemplate restTemplate = new RestTemplate();
-
     @Override
     public boolean sendOtp(String mobNo) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-API-KEY", apiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
         String otp = generateOtp();
-        RedisTemplate<String ,String > redis = new RedisTemplate<String,String>();
-        redis.opsForValue().set(mobNo, otp);
+//        RedisTemplate<String ,String > redis = new RedisTemplate<String,String>();
+//        redis.opsForValue().set(mobNo, otp);
         Map<String, String> body = Map.of(
                 "Mobile Number", mobNo,
                 "Message", "Dear Customer your OTP is " + otp
