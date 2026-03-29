@@ -29,8 +29,8 @@ public class Outlet {
     @JoinColumn
     private Restaurant restaurant;
 
-    @OneToMany
-    private List<Food> foods;
+    @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
+private List<Food> foods;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn

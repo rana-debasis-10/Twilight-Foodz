@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import com.twilight.annotations.MobileNumber;
 
 
 @Entity
@@ -17,11 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 public class Customer {
     @Id
-    String mobNo;
+    @MobileNumber
+    private String mobNo;
 
-    @MapsId
-    @JoinColumn
     @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "mob_no")
     private User user;
 
 

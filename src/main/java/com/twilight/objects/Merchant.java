@@ -15,12 +15,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Merchant {
-    @Id
+    @Id  
+    @Column(name = "mob_no", length = 15)
     private String mobNo;
 
     @MapsId
-    @JoinColumn
+    @JoinColumn(name = "mob_no")
     @OneToOne(fetch = FetchType.LAZY)
+
     private User user;
 
     @OneToOne(mappedBy = "merchant", cascade = CascadeType.ALL)

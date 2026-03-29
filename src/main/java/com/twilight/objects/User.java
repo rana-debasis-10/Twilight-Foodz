@@ -18,7 +18,7 @@ public class User {
 
     @Id
     @MobileNumber
-    @NotNull(message = "Enter your mobile number")
+    @Column(name = "mob_no", length = 15)
     private String mobNo;
 
     @Enumerated(EnumType.STRING)

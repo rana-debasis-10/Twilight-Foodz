@@ -29,8 +29,8 @@ public class Product {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Food> food;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+private List<Food> food;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

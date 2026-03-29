@@ -32,8 +32,8 @@ public class Restaurant {
     private Merchant merchant;
 
     /// Products of the restaurant
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+private List<Product> products = new ArrayList<>();
 
     /// AddressR of the restaurant
     @OneToOne( cascade = CascadeType.ALL)

@@ -14,11 +14,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Driver {
     @Id
+    @Column(name = "mob_no", length = 15)
     private String id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "mob_no")
     private User user;
 
     private String aadhaarNumber;
