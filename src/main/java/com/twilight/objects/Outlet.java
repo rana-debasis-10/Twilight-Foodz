@@ -14,26 +14,22 @@ import java.util.List;
 @Getter@Setter
 public class Outlet {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @ManyToOne
-            @JoinColumn
+    @JoinColumn(name = "mob_no")
     Merchant merchant;
 
-    @OneToOne
-    @JoinColumn
-    User restaurantAdmin;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
-private List<Food> foods;
+    private List<Food> foods;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Enumerated(EnumType.STRING)

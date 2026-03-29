@@ -30,10 +30,10 @@ public class Product {
     private String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-private List<Food> food;
+    private List<Food> food;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
 

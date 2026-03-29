@@ -1,5 +1,6 @@
 package com.twilight.objects;
 
+import com.twilight.annotations.MobileNumber;
 import com.twilight.dataTransferObjects.DriverR;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Driver {
     @Id
+    @MobileNumber
     @Column(name = "mob_no", length = 15)
-    private String id;
+    private String mobNo;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)

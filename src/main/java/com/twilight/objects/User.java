@@ -29,15 +29,15 @@ public class User {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
     private Customer customer;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Driver driver;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
     private Merchant merchant;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
     private Manager manager;
 }

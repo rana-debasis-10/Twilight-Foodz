@@ -19,6 +19,7 @@ import com.twilight.annotations.MobileNumber;
 public class Customer {
     @Id
     @MobileNumber
+    @Column(name = "mob_no", length = 15)
     private String mobNo;
 
     @OneToOne(fetch = FetchType.LAZY)

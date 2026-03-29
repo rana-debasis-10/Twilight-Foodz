@@ -26,7 +26,7 @@ public class Address {
     private String landMark;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "mob_no")
     private Customer customer;
 
     @OneToOne(mappedBy = "address")

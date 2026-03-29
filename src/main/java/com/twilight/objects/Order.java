@@ -24,6 +24,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     @Column(unique = true)
     private String razorpayOrderId;
 
@@ -43,11 +44,11 @@ public class Order {
     private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "mob_no")
     private User user;
 
     @MobileNumber
-    private String mobNo;
+    private String DeliveryMobNo;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn

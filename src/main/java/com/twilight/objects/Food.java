@@ -17,15 +17,14 @@ public class Food {
     private String id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private Double priceOverride;
-    private String outletLocation;
     private boolean available;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "outlet_id")
     private Outlet outlet;
 
 }

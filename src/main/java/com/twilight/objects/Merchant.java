@@ -1,5 +1,6 @@
 package com.twilight.objects;
 
+import com.twilight.annotations.MobileNumber;
 import com.twilight.dataTransferObjects.DriverR;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Merchant {
-    @Id  
+    @Id
+    @MobileNumber
     @Column(name = "mob_no", length = 15)
     private String mobNo;
 

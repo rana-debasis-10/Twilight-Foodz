@@ -16,42 +16,31 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Restaurant {
-    /// Unique ID of the restaurant
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    /// Name of the restaurant
     private String name;
 
     private String image;
 
     @OneToOne
-    @MapsId
-    @JoinColumn
-    /// Merchant of Restaurant
+    @JoinColumn(name = "mob_no")
     private Merchant merchant;
 
-    /// Products of the restaurant
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-private List<Product> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
-    /// AddressR of the restaurant
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn
     private Address address;
 
-
-    @Min(value = 0)
-    @Max(value = 5)
-    private int rating;
-
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant")
     private List<Outlet> outlet;
 
 
     public Restaurant(RestaurantR request){
         this.setAddress(new Address(request.addressR()));
-        this.setRating(5);
         this.setName(request.name());
     }
 }
