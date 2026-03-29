@@ -27,24 +27,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/find/**", "/error","/order.html")
-                            .permitAll()
-                        .requestMatchers("/api/admin/**")
-                            .hasRole("ADMIN")
-                        .requestMatchers("/api/customer/**")
-                            .hasAnyRole("ADMIN", "CUSTOMER","MERCHANT","DRIVER")
-
-                        .requestMatchers("/api/restaurant/**")
-                        .hasAnyRole("ADMIN", "MERCHANT")
-
-                        .requestMatchers("/api/driver/**")
-                        .hasAnyRole("ADMIN", "DRIVER")
-
                         .anyRequest().permitAll()
                 )
-
                 .httpBasic(AbstractHttpConfigurer::disable)
-                
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
