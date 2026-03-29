@@ -1,7 +1,6 @@
 package com.twilight.objects;
 
 import com.twilight.annotations.MobileNumber;
-import com.twilight.dataTransferObjects.OrderR;
 import com.twilight.types.DeliveryStatus;
 import com.twilight.types.PaymentMethod;
 import com.twilight.types.PaymentStatus;
@@ -48,21 +47,21 @@ public class Order {
     private User user;
 
     @MobileNumber
-    private String DeliveryMobNo;
+    private String deliveryMobNo;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
-    private Address address;
+    @JoinColumn(name = "address_id")
+    private Address delivery_address;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Item> items;
 
-    public Order(OrderR orderDetails, String receipt ) {
-        this.createdAt = Instant.now();
-        this.paymentMethod = orderDetails.paymentMethod();
-        this.deliveryStatus = DeliveryStatus.ordered;
-        this.paymentStatus = PaymentStatus.pending;
-        this.address = new Address( orderDetails .addressR());
-        this.receipt = receipt;
-    }
+//    public Order(OrderR orderDetails, String receipt ) {
+//        this.createdAt = Instant.now();
+//        this.paymentMethod = orderDetails.paymentMethod();
+//        this.deliveryStatus = DeliveryStatus.ordered;
+//        this.paymentStatus = PaymentStatus.pending;
+//        this.deliveryAddress = new Address( orderDetails .addressR());
+//        this.receipt = receipt;
+//    }
 }

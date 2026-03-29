@@ -12,8 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Enumerated(EnumType.STRING)
     private AddressType type;
@@ -29,7 +29,7 @@ public class Address {
     @JoinColumn(name = "mob_no")
     private Customer customer;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "delivery_address")
     private Order order;
     @OneToOne(mappedBy = "address")
     private Outlet outlet;
