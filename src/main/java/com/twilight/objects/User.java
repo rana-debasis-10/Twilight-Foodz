@@ -3,7 +3,6 @@ package com.twilight.objects;
 import com.twilight.annotations.*;
 import com.twilight.types.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

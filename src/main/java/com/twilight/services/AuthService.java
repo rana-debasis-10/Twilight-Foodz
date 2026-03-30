@@ -1,4 +1,4 @@
 package com.twilight.services;
 
-public class AuthService{
+public interface AuthService{
 }

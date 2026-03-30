@@ -4,5 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface MessageService {
     @Transactional
-    boolean sendOtp(String mobNo);
+    void sendOtp(String mobNo);
+    @Transactional
+    String checkOtp(String mobNo);
 }

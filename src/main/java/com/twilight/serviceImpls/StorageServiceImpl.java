@@ -23,6 +23,8 @@ public class StorageServiceImpl implements StorageService {
     private S3Client s3Client;
     @Value("${minio.client.bucket}")
     private String bucket;
+    @Value("${minio.client.endpoint}")
+    private String endpoint;
 
     public String upload(MultipartFile file, String folder) throws IOException {
 
@@ -34,10 +36,10 @@ public class StorageServiceImpl implements StorageService {
                         .key(key)
                         .contentType(file.getContentType())
                         .build(),
-                RequestBody.fromBytes(file.getBytes())
+                RequestBody.fromInputStream(file.getInputStream(), file.getSize())
         );
 
-        return key;
+        return endpoint + "/" + key;
     }
 
     public Resource download(String key) {
@@ -48,7 +50,7 @@ public class StorageServiceImpl implements StorageService {
                         .build()
         ).asByteArray();
 
-        return (Resource) new ByteArrayResource(data);
+        return new ByteArrayResource(data);
     }
 
     public void delete(String key) throws IOException {
