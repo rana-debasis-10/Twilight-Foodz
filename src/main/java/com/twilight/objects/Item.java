@@ -9,24 +9,17 @@ import lombok.*;
 public class Item {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String name;
-    private Double price;
-    private String image;
     private Integer quantity;
+    private Double price;
     private Double subtotal;
+    private String foodId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customerOrderId")
+    @JoinColumn(name = "order_id")
     private Order order;
 
-    private Double calculateSubtotal() {
-        return this.price * this.quantity;
-    }
 
-    public void updateQuantity(int quantity) {
-        this.quantity = quantity;
-        this.subtotal = calculateSubtotal();
-    }
 }
 

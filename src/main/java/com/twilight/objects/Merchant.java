@@ -21,38 +21,11 @@ public class Merchant {
     @Column(name = "mob_no", length = 15)
     private String mobNo;
 
-    @MapsId
-    @JoinColumn(name = "mob_no")
-    @OneToOne(fetch = FetchType.LAZY)
-
-    private User user;
+    @NotNull
+    private String email;
 
     @OneToOne(mappedBy = "merchant", cascade = CascadeType.ALL)
     private Restaurant restaurant;
 
-    @NotNull
-    private String pan;
-    @NotNull
-    private String aadhaar;
-    @NotNull
-    private String bankAccount;
-    @NotNull
-    private String ifsc;
-
-    public Merchant(User user, DriverR driverR) {
-        this.user = user;
-        this.pan = driverR.pan();
-        this.aadhaar = driverR.aadhaar();
-        this.bankAccount = driverR.bankAccount();
-        this.ifsc = driverR.ifsc();
-
-    }
-
-    public Merchant(DriverR kyc) {
-        this.pan = kyc.pan();
-        this.aadhaar = kyc.aadhaar();
-        this.bankAccount = kyc.bankAccount();
-        this.ifsc = kyc.ifsc();
-    }
 }
 

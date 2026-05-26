@@ -20,10 +20,11 @@ import java.util.Map;
 public class PaymentServiceImpl implements PaymentService {
     @Value("${razorpay.key.secret}")
     private String keySecret;
-    @Value("${razorpay.webhook.secret}")
-    private String webhookSecret;
     @Value("${razorpay.key.id}")
     private String keyId;
+    @Value("${razorpay.webhook.secret}")
+    private String webhookSecret;
+
 
     @Autowired
     private ObjectMapper objectMapper;

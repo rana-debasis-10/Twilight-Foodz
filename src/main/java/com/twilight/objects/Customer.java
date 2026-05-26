@@ -1,5 +1,6 @@
 package com.twilight.objects;
 
+import com.twilight.types.AddressType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.twilight.annotations.MobileNumber;
 
 
@@ -22,19 +26,11 @@ public class Customer {
     @Column(name = "mob_no", length = 15)
     private String mobNo;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "mob_no")
-    private User user;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
+    @OneToMany(mappedBy = "customer")
+    private List<CustomerAddress> addresses ;
 
-    @NotNull(message = "Enter your name")
-    private String name;
-
-    private boolean addressAdded;
-
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Address> address;
 
 }

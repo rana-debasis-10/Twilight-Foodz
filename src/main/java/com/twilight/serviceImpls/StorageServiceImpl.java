@@ -21,9 +21,9 @@ public class StorageServiceImpl implements StorageService {
 
     @Autowired
     private S3Client s3Client;
-    @Value("${minio.client.bucket}")
+    @Value("${storage.client.bucket}")
     private String bucket;
-    @Value("${minio.client.endpoint}")
+    @Value("${storage.client.endpoint}")
     private String endpoint;
 
     public String upload(MultipartFile file, String folder) throws IOException {

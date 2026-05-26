@@ -2,11 +2,12 @@ package com.twilight.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
@@ -25,16 +26,15 @@ public class CacheConfig {
                 .build();
     }
     @Bean
-    @Primary
-    public RedisTemplate<String,String> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, String> template = new RedisTemplate<>();
+    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
+        StringRedisSerializer keySerializer = new StringRedisSerializer();
+        RedisSerializer<Object> serializer = new JacksonJsonRedisSerializer<Object>(Object.class);
 
-        StringRedisSerializer serializer = new StringRedisSerializer();
-
-        template.setKeySerializer(serializer);
+        template.setKeySerializer(keySerializer);
         template.setValueSerializer(serializer);
-        template.setHashKeySerializer(serializer);
+        template.setHashKeySerializer(keySerializer);
         template.setHashValueSerializer(serializer);
 
         template.afterPropertiesSet();

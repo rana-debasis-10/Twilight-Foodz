@@ -10,15 +10,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "Orders")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,33 +33,23 @@ public class Order {
     @Enumerated(value = EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    private String receipt;
-
     @Enumerated(value = EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 
-    private Instant createdAt;
+    private LocalDateTime orderTime;
 
     @ManyToOne
     @JoinColumn(name = "mob_no")
-    private User user;
+    private Customer customer;
 
     @MobileNumber
     private String deliveryMobNo;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
-    private Address delivery_address;
+    private OrderAddress delivery_address;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Item> items;
 
-//    public Order(OrderR orderDetails, String receipt ) {
-//        this.createdAt = Instant.now();
-//        this.paymentMethod = orderDetails.paymentMethod();
-//        this.deliveryStatus = DeliveryStatus.ordered;
-//        this.paymentStatus = PaymentStatus.pending;
-//        this.deliveryAddress = new Address( orderDetails .addressR());
-//        this.receipt = receipt;
-//    }
 }

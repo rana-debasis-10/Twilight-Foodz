@@ -47,7 +47,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public String checkOtp(String mobNo) {
-       return (String)redis.opsForValue().get(mobNo);
+       return redis.opsForValue().get(mobNo);
     }
 
     private String generateOtp() {

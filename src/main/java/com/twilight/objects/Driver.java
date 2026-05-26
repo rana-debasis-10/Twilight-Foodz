@@ -18,16 +18,6 @@ public class Driver {
     @MobileNumber
     @Column(name = "mob_no", length = 15)
     private String mobNo;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mob_no")
-    private User user;
-
-    private String aadhaarNumber;
-    private String bankAccount;
-    private String ifsc;
-    private String bankName;
     private String drivingLicense;
 
 }

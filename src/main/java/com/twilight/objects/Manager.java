@@ -9,8 +9,8 @@ public class Manager {
     @Column(name = "mob_no", length = 15)
     private String mobNo;
 
-    @OneToOne
-    @JoinColumn(name = "mob_no")
-    @MapsId
-    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="outlet_id")
+    private Outlet outlet;
 }

@@ -12,14 +12,14 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 
 @Configuration
-public class S3Config {
+public class StorageConfig {
 
     @Bean
     S3Client s3Client(
-            @Value("${minio.client.region}") String region,
-            @Value("${minio.client.endpoint}") String endpoint,
-            @Value("${minio.access-key}") String accessKey,
-            @Value("${minio.secret_key}") String secretKey
+            @Value("${storage.client.region}") String region,
+            @Value("${storage.client.endpoint}") String endpoint,
+            @Value("${storage.access-key}") String accessKey,
+            @Value("${storage.secret-key}") String secretKey
     ) {
 
         return S3Client.builder()

@@ -1,9 +1,6 @@
 package com.twilight.objects;
 
-import com.twilight.dataTransferObjects.RestaurantR;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,14 +30,9 @@ public class Restaurant {
 
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn
-    private Address address;
+    private OrderAddress orderAddress;
 
     @OneToMany(mappedBy = "restaurant")
     private List<Outlet> outlet;
 
-
-    public Restaurant(RestaurantR request){
-        this.setAddress(new Address(request.addressR()));
-        this.setName(request.name());
-    }
 }

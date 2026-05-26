@@ -8,4 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ItemRepository extends JpaRepository<@NonNull Item,@NonNull String> { }
+import java.util.List;
+
+public interface ItemRepository extends JpaRepository<@NonNull Item,@NonNull String> {
+    List<Item>findAllByOrderId(@NonNull String orderId);
+}

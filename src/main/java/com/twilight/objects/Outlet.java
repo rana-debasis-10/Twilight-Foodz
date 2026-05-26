@@ -29,8 +29,8 @@ public class Outlet {
     private List<Food> foods;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id")
-    private Address address;
+    @JoinColumn(name = "outlet_address_id")
+    private OutletAddress outletAddress;
 
     @Enumerated(EnumType.STRING)
     private OutletStatus outletStatus;

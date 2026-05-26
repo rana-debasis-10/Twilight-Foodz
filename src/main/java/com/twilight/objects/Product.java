@@ -36,10 +36,4 @@ public class Product {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-
-    public Product(FoodR request){
-        this.name=request.name();
-        this.price= request.price();
-        this.description= request.description();
-    }
 }
