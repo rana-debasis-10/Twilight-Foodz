@@ -17,8 +17,8 @@ Twilight is a backend project using Spring Boot. I have picked up the business m
 ---
 
 ## Features
-- JWT-based authentication & authorization and email based login.
-- Role-based access control (Admin, Cusotomer, Merchant, Driver, Restaurant Manager).
+- JWT-based authentication & authorization OTP Based Login
+- Role-based access control (Admin, Customer, Merchant, Driver, Restaurant Manager).
 - Restaurant and Outlet Management.
 - Item management. 
 - Order creation & tracking.
@@ -27,11 +27,16 @@ Twilight is a backend project using Spring Boot. I have picked up the business m
 - Global exception handling.
 - Logging system with file storage.
 - Redis-based caching for fast response.
+- Kafka Based Event Handling 
+- MapStruct Mapping 
+- S3 Compatible MinIO Storage
   
 ## Architecture 
 Application follows a Layered Architecture: 
 
 Controller → Service → Repository → Database
+
+Some Processes are asynchronously handled and maintained
 
 - Controllers handle HTTP requests and responses.
 - Services contain business logic.
@@ -53,72 +58,107 @@ cd Twilight.org
 Create src/main/resources/application.yaml file 
 ``` bash
 
-mkdir src/main/resources
+mkdir -p src/main/resources/
+
+cd src/main/resources/
 
 nano application.yaml
 
 ```
 Configure application.yaml
 ``` bash
+#Spring Configuration ------------------------------------------#
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/Twilight?useSSL=false&allowPublicKeyRetrieval=TRUE
-    username: user_name
-    password: user_password
-
   application:
     name: Twilight
+
+  #Database connection -------------------------------------------#
+  datasource:
+    url: jdbc:mysql://localhost:3306/${Your_database_name}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${YOUR_USER_NAME}
+    password: ${YOUR_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
-    database-platform:
-      org.hibernate.dialect : MySQLDialect
-    
-logging:
-  level:
-    org.springframework.web : INFO
-    
-server:
-  error:
-    include-message: always
-  port: 8080
+    database-platform: org.hibernate.dialect.MySQLDialect
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
 
- razorpay:
-  key:
-    id: rzp_test_xxxxxxxxxxxxxx
-    secret: xxxxxxxxxxxxxxxxxxxxxxxx
-  webhook:
-    secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  #Redis Configuration -------------------------------------------#
+  redis:
+    host: localhost
+    port: 6379
 
-storage:
-  bucket: TwilightImageStorage
 
+#JWT Security ----------------------------------------------------#
 jwt:
   secret:
-    key: XXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-aws:
-  region: your_aws_region
-  endpoint: your_aws_endpoint
-  access-key: your_aws_access_key
-  secret-key: your_aws_secret_key
+    key: your-secret-key-here
+
+#Razorpay Config ------------------------------------------------#
+razorpay:
+  key:
+    id: ${RAZORPAY_PUBLIC_KEY}
+    secret: ${RAZORPAY_PRIVATE_KEY}
+  webhook:
+    secret: ${YOUR_WEBHOOK_SECRET}
+
+#Message Service Configuration ----------------------------------#
+message:
+  key: ${YOUR_SMS_SERVER_KEY}
+  endpoint: ${YOUR_SMS_SERVER_ENDPOINT}
+
+
+#Apache Kafka Configuration --------------------------------------#
+kafka:
+  bootstrap-servers: localhost:9092
+
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.support.serializer.JsonSerializer
+
+  consumer:
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.support.serializer.JsonDeserializer
+
+#Storage Configuration -------------------------------------------#
+
+storage:
+  client:
+    region: us-east-1
+    endpoint: "http://localhost:9000"
+    bucket: twilight_storage
+  access-key: ${MINIO_USERNAME}
+  secret-key: ${MINIO-PASSWORD}
+
+#Logging Configuration --------------------------------------------#
+logging:
+  level:
+    org.springframework.web: WARN
+
+
+#Server Configuration ---------------------------------------------#
+server:
+  port: 8080
+
+  error:
+    include-message: always
 ```
-### Run the project 
+
+## Export the Environment variables before building the project
+
+### Run the project
 ``` bash
 
-./gradlew bootRun --stacktrace
+./gradlew bootRun 
 
 ```
-this builds and runs the project on localhost at 8080 port 
+
 
 ## Note 
-Project is under the process of development. I am working alone and still a undergraduate student. Do not expect a lot. 
+Project is under the process of development. I am working alone and still an undergraduate student. Do not expect a lot. 
 
 
 

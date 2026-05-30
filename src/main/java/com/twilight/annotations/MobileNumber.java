@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Name("Mobile number validity")
 @Description("Mobile Number Must be exactly of 10 digit")
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Constraint(validatedBy = MobileNumberValidator.class)
 @Documented
 public @interface MobileNumber {
