@@ -45,11 +45,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             Claims claims = jwtService.extractClaims(token);
-            String id = claims.getSubject();
+            String mobNo = claims.getSubject();
 
             Role role = Role.valueOf(claims.get("Role", String.class));
-
-            String mobNo = claims.get("Mobile",String.class);
 
 
             Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -59,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(mobNo, null, authorities);
+                    new UsernamePasswordAuthenticationToken(mobNo,null, authorities);
 
             authentication.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)

@@ -7,5 +7,5 @@ public interface MessageService {
     @Transactional
     void sendOtp(String mobNo);
     @Transactional
-    boolean verifyOtp(String mobNo,int otp);
+    boolean verifyOtp(String mobNo,String otp);
 }

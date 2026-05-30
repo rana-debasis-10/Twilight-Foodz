@@ -11,9 +11,13 @@ public interface ProductMapper {
     @Mapping(target="id", ignore =true)
     @Mapping(target="food",ignore =true)
     @Mapping(target= "restaurant",ignore =true)
+    @Mapping(target = "image", ignore = true)
     public Product toProduct(ProductR dto);
+
     @Mapping(target="product.id", ignore =true)
     @Mapping(target="product.food",ignore =true)
     @Mapping(target= "product.restaurant",ignore =true)
+    @Mapping(target = "product.image", ignore = true)
+
     public ProductR toProductR(Product product);
 }

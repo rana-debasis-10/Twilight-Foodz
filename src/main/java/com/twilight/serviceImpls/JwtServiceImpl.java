@@ -24,13 +24,12 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     @Override
-    public String generateToken(String id, Role role, String mobNo) {
+    public String generateToken(String mobNo,Role role) {
         Map<String, Object> claims = new HashMap<>();
 
         return Jwts.builder()
-                .subject(id)
+                .subject(mobNo)
                 .claim("Role",role.toString())
-                .claim("Mobile",mobNo)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() +1000L * 60 * 60 * 30))
                 .signWith(getKey())

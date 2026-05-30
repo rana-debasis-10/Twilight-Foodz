@@ -1,7 +1,6 @@
 package com.twilight.serviceImpls;
 
 import com.twilight.repositories.ItemRepository;
-import com.twilight.services.AuthService;
 import com.twilight.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 

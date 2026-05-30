@@ -47,8 +47,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public boolean verifyOtp(String mobNo, int otp) {
-       return (redis.opsForValue().get(mobNo)).equals(otp+"");
+    public boolean verifyOtp(String mobNo, String otp) {
+       return (redis.opsForValue().get(mobNo)).equals(otp);
     }
 
     private String generateOtp() {

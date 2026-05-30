@@ -26,10 +26,12 @@ public class Customer {
     @Column(name = "mob_no", length = 15)
     private String mobNo;
 
+    private String name;
+
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     private List<CustomerAddress> addresses ;
 
 

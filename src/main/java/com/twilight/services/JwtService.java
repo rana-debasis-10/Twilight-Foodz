@@ -16,7 +16,7 @@ import java.util.*;
 
 public interface JwtService {
 
-    public String generateToken(String id, Role role, String mobNo) ;
+    public String generateToken( String mobNo,Role role) ;
 
     public boolean isTokenValid(String token) ;
 
