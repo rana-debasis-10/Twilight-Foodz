@@ -24,7 +24,9 @@ public class AuthEndpoints {
         messageService.sendOtp(mobNo);
         return true;
     };
+
     @PostMapping ("/login")
+    @Validated
     String verify(@RequestParam(name = "m") @MobileNumber String mobNo, @RequestParam(name = "v")String otp) throws InvalidTypeException{
 
         try{

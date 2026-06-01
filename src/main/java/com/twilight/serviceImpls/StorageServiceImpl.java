@@ -39,7 +39,7 @@ public class StorageServiceImpl implements StorageService {
                 RequestBody.fromInputStream(file.getInputStream(), file.getSize())
         );
 
-        return endpoint + "/" + key;
+        return key;
     }
 
     public Resource download(String key) {

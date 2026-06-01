@@ -21,16 +21,14 @@ public class Restaurant {
 
     private String image;
 
+    private String fssai;
+
     @OneToOne
     @JoinColumn(name = "mob_no")
     private Merchant merchant;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
-
-    @OneToOne( cascade = CascadeType.ALL)
-    @JoinColumn
-    private OrderAddress orderAddress;
 
     @OneToMany(mappedBy = "restaurant")
     private List<Outlet> outlet;

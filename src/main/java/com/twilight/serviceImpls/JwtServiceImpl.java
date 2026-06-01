@@ -31,7 +31,7 @@ public class JwtServiceImpl implements JwtService {
                 .subject(mobNo)
                 .claim("Role",role.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +1000L * 60 * 60 * 30))
+                .expiration(new Date((long) (System.currentTimeMillis() + 7.884e+9)))
                 .signWith(getKey())
                 .compact();
 

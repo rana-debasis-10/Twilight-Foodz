@@ -17,9 +17,8 @@ public class Outlet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "mob_no")
-    Merchant merchant;
+    @OneToMany(mappedBy ="outlet",cascade= CascadeType.ALL)
+    List<OutletMember> members;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")

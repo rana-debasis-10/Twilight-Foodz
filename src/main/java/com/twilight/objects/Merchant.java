@@ -16,13 +16,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Merchant {
+
+    @NotNull
+    String name;
+
     @Id
     @MobileNumber
-    @Column(name = "mob_no", length = 15)
     private String mobNo;
 
     @NotNull
     private String email;
+
 
     @OneToOne(mappedBy = "merchant", cascade = CascadeType.ALL)
     private Restaurant restaurant;
