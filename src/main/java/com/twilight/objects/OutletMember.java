@@ -3,8 +3,12 @@ package com.twilight.objects;
 import com.twilight.annotations.MobileNumber;
 import com.twilight.types.Role;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class OutletMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

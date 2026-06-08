@@ -36,6 +36,19 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
 
     }
+
+    @Override
+    public String generateToken(String mobNo, Role role, String establishment) {
+        return Jwts.builder()
+                .subject(mobNo)
+                .claim("Role",role.toString())
+                .claim("Establishment",establishment)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date((long) (System.currentTimeMillis() + 7.884e+9)))
+                .signWith(getKey())
+                .compact();
+    }
+
     @Override
     public boolean isTokenValid(String token){
             try {

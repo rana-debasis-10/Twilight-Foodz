@@ -71,6 +71,8 @@ dependencies {
 	//MySQL Connector Dependency
 	runtimeOnly("com.mysql:mysql-connector-j");
 
+	runtimeOnly("org.postgresql:postgresql:42.7.4")
+
 	//JWT API Dependencies
     implementation ("io.jsonwebtoken:jjwt-api:0.13.0")
 

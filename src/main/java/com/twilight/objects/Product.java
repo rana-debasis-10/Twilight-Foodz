@@ -27,8 +27,6 @@ public class Product {
 
     private String image;
 
-    private String description;
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Food> food;
 

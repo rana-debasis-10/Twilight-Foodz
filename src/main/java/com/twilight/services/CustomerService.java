@@ -7,4 +7,5 @@ public interface CustomerService {
     Customer loadCustomer(String mobNo);
     boolean createCustomer(String mobNo,String name);
     void addAddress(String mobNo,CustomerAddress address);
+    void acceptInvitation(String mobNo,String invitationId);
 }

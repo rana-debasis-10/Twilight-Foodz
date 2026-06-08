@@ -25,7 +25,7 @@ public class AuthEndpoints {
         return true;
     };
 
-    @PostMapping ("/login")
+    @PostMapping ("/verify")
     @Validated
     String verify(@RequestParam(name = "m") @MobileNumber String mobNo, @RequestParam(name = "v")String otp) throws InvalidTypeException{
 

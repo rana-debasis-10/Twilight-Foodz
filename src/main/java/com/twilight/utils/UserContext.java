@@ -12,7 +12,9 @@ import java.util.Objects;
 @Getter
 public class UserContext {
     private final String Mobile_Number;
+    private final String establishment;
     UserContext(){
         this.Mobile_Number = (String) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        this.establishment = (String)SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 }

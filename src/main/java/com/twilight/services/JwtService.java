@@ -18,6 +18,8 @@ public interface JwtService {
 
     public String generateToken( String mobNo,Role role) ;
 
+    public String generateToken(String mobNo , Role role , String establishment);
+
     public boolean isTokenValid(String token) ;
 
     public Claims extractClaims(String token) ;

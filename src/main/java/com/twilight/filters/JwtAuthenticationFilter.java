@@ -46,6 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             Claims claims = jwtService.extractClaims(token);
             String mobNo = claims.getSubject();
+            String establishment = claims.get("Establishment",String.class);
 
             Role role = Role.valueOf(claims.get("Role", String.class));
 
@@ -57,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(mobNo,null, authorities);
+                    new UsernamePasswordAuthenticationToken(mobNo,establishment, authorities);
 
             authentication.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)

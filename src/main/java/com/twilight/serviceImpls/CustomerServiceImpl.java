@@ -48,4 +48,9 @@ public class CustomerServiceImpl implements CustomerService {
         else
             throw new UnauthorizedException("User not found");
     }
+
+    @Override
+    public void acceptInvitation(String mobNo, String invitationId) {
+
+    }
 }

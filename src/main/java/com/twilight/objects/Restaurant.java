@@ -30,7 +30,7 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<Outlet> outlet;
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
+    private List<Outlet> outlet = new ArrayList<>();
 
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,7 @@ public class Outlet {
     private String id;
 
     @OneToMany(mappedBy ="outlet",cascade= CascadeType.ALL)
-    List<OutletMember> members;
+    List<OutletMember> members = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
@@ -27,9 +29,8 @@ public class Outlet {
     @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
     private List<Food> foods;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "outlet_address_id")
-    private OutletAddress outletAddress;
+    private Double longitude,
+            latitude;
 
     @Enumerated(EnumType.STRING)
     private OutletStatus outletStatus;
