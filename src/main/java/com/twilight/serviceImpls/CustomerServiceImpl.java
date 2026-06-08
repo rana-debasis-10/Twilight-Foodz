@@ -9,7 +9,7 @@ import com.twilight.repositories.CustomerRepository;
 import com.twilight.repositories.OutletInvitationRepository;
 import com.twilight.services.CustomerService;
 import com.twilight.services.JwtService;
-import com.twilight.types.InvitationStatus;
+
 import com.twilight.types.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -66,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String acceptInvitation(String mobNo, Integer invitationId) {
-        OutletInvitation invitation =outletInvitationRepository.findByIdAndInviteeMobNo(invitationId,mobNo);
+        OutletInvitation invitation =outletInvitationRepository.findByIdAndInviteeMobileNo(invitationId,mobNo);
         if(invitation==null){
             throw new UnauthorizedException("Invitation does not exist or exists but not for you");
         }

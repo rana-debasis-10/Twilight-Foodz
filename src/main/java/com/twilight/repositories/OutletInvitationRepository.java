@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface OutletInvitationRepository extends JpaRepository<OutletInvitation,Integer> {
-    OutletInvitation findByIdAndInviteeMobNo(@NonNull Integer InvitationId,@NonNull String inviteeMobNo);
+    OutletInvitation findByIdAndInviteeMobileNo(@NonNull Integer invitationId,@NonNull String inviteeMobileNo);
 
-    List<OutletInvitation> findAllByInviteeMobileNo(String InviteeMobNo);
+    List<OutletInvitation> findAllByInviteeMobileNo(String inviteeMobileNo);
 }

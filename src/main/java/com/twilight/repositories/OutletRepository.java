@@ -35,4 +35,6 @@ public interface OutletRepository extends JpaRepository<Outlet,String> {
                 @Param("limit") int limit
         );
 
+        List<Outlet> findByRestaurantId(String restaurantId);
+
 }

@@ -53,7 +53,7 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-cache")
 
 	//Apache Kafka Dependency
-	implementation ("org.springframework.kafka:spring-kafka")
+	implementation("org.springframework.kafka:spring-kafka")
 
 	//MapStruct Dependency
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
