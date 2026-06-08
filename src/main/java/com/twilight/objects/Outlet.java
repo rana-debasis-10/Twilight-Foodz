@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tools.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter@Setter
-public class Outlet {
+
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "outlet_location", // Optional: Gives your constraint a custom database name
+                        columnNames = {"longitude", "latitude"} // Must match the actual database column names
+                )
+        }
+)
+public class Outlet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;

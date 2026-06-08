@@ -1,9 +1,10 @@
 package com.twilight.services;
 
-import com.twilight.objects.Outlet;
+import com.twilight.dataTransferObjects.OutletR;
+
 
 import java.util.List;
 
 public interface SearchService {
-    public List<Outlet> findNearestOutlets(Double lat, Double lon);
+    public List<OutletR> findNearestOutlets(Double lat, Double lon);
 }

@@ -4,17 +4,32 @@ import com.twilight.exceptions.UnauthorizedException;
 import com.twilight.exceptions.UserAlreadyExists;
 import com.twilight.objects.Customer;
 import com.twilight.objects.CustomerAddress;
+import com.twilight.objects.OutletInvitation;
 import com.twilight.repositories.CustomerRepository;
+import com.twilight.repositories.OutletInvitationRepository;
 import com.twilight.services.CustomerService;
+import com.twilight.services.JwtService;
+import com.twilight.types.InvitationStatus;
+import com.twilight.types.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    OutletInvitationRepository outletInvitationRepository;
+
+    @Autowired
+    JwtService jwtService;
+
 
     @Override
     public Customer loadCustomer(String mobNo) {
@@ -50,7 +65,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void acceptInvitation(String mobNo, String invitationId) {
+    public String acceptInvitation(String mobNo, Integer invitationId) {
+        OutletInvitation invitation =outletInvitationRepository.findByIdAndInviteeMobNo(invitationId,mobNo);
+        if(invitation==null){
+            throw new UnauthorizedException("Invitation does not exist or exists but not for you");
+        }
+        outletInvitationRepository.delete(invitation);
+       return jwtService.generateToken(mobNo, Role.manager,invitation.getOutletId());
+    }
 
+    @Override
+    public List<OutletInvitation> getALlInvitation(String mobNo) {
+        return outletInvitationRepository.findAllByInviteeMobileNo(mobNo);
     }
 }
