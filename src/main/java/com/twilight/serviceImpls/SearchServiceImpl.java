@@ -1,6 +1,8 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.dataTransferObjects.OutletR;
+import com.twilight.repositories.FoodRepository;
 import com.twilight.repositories.OutletRepository;
 import com.twilight.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,17 @@ import java.util.List;
 public class SearchServiceImpl implements SearchService {
     @Autowired
     OutletRepository outletRepository;
+
+    @Autowired
+    FoodRepository foodRepository;
     @Override
     @Cacheable("outlets")
     public List<OutletR> findNearestOutlets(Double lat, Double lon) {
         return outletRepository.findNearestOutlets(lat, lon, 300);
+    }
+
+    @Override
+    public List<FoodR> getFoods(String outletId) {
+        return foodRepository.findMenuByOutletId(outletId);
     }
 }

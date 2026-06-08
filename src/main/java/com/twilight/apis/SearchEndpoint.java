@@ -1,5 +1,6 @@
 package com.twilight.apis;
 
+import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.dataTransferObjects.OutletR;
 import com.twilight.objects.Outlet;
 import com.twilight.services.SearchService;
@@ -17,8 +18,13 @@ import java.util.List;
 public class SearchEndpoint {
     @Autowired
     SearchService searchService ;
-    @GetMapping
+    @GetMapping("/outlet")
     public List<OutletR> findNearestOutlet(@RequestParam double lat, @RequestParam double lon ){
         return searchService.findNearestOutlets(lat,lon);
     }
+    @GetMapping("/food")
+    public List<FoodR> getFoods(@RequestParam(name = "o") String outletId){
+        return searchService.getFoods(outletId);
+    }
+
 }

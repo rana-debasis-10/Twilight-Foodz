@@ -1,11 +1,33 @@
 package com.twilight.repositories;
 
+import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.objects.Food;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
+@Repository
 public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull String> {
+    @Query("""
+    SELECT new com.twilight.dataTransferObjects.FoodR(
+        f.id,
+        p.name,
+        p.image,
+        f.priceOverride,
+        f.available
+    )
+    FROM Food f
+    JOIN f.product p
+    WHERE f.outlet.id = :outletId
+      AND f.available = true
+""")
+    List<FoodR> findMenuByOutletId(
+            @Param("outletId") String outletId
+    );
 }
 
 
