@@ -1,5 +1,6 @@
 package com.twilight.repositories;
 
+import com.twilight.dataTransferObjects.FoodPrice;
 import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.objects.Food;
 import org.jspecify.annotations.NonNull;
@@ -27,6 +28,20 @@ public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull Str
 """)
     List<FoodR> findMenuByOutletId(
             @Param("outletId") String outletId
+    );
+    @Query("""
+    SELECT new com.twilight.dataTransferObjects.FoodPrice(
+        f.id,
+        COALESCE(f.priceOverride, f.product.price)
+    )
+    FROM Food f
+    WHERE f.outlet.id = :outletId
+      AND f.id IN :foodIds
+      AND f.available = true
+""")
+    List<FoodPrice> findFoodPrices(
+            String outletId,
+            List<String> foodIds
     );
 }
 

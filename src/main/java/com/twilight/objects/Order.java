@@ -38,7 +38,7 @@ public class Order {
     @Enumerated(value = EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 
-    private LocalDateTime orderTime;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "mob_no")
@@ -47,9 +47,11 @@ public class Order {
     @MobileNumber
     private String deliveryMobNo;
 
+    private String outletId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
-    private OrderAddress delivery_address;
+    private OrderAddress deliveryAddress;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Item> items;

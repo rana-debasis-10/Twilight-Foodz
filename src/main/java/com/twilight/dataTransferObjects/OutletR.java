@@ -6,4 +6,4 @@ import jakarta.persistence.Enumerated;
 
 import java.io.Serializable;
 
-public record OutletR (String outletId ,String restaurantName, String restaurantImage ,OutletStatus outletStatus) implements Serializable{}
+public record OutletR (String outletId ,String restaurantName, String restaurantImage ,OutletStatus outletStatus, Double latitude, Double longitude) implements Serializable{}

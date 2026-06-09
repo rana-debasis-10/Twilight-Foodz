@@ -62,9 +62,9 @@ public class PaymentServiceImpl implements PaymentService {
         req.put("receipt", receipt);
 
         Order order = client.orders.create(req);
-        String orderId = order.get("id");
+        String id = order.get("id");
 
-        response.put("orderId", orderId);
+        response.put("id", id);
         response.put("key", keyId);
         response.put("amount",total);
         return response;
