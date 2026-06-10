@@ -17,6 +17,7 @@ public class OutletInvitation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @Column(unique = true)
     @MobileNumber
     String inviteeMobileNo;
 

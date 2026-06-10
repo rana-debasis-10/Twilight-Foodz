@@ -23,11 +23,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-    @Autowired
-    OutletInvitationRepository outletInvitationRepository;
-
-    @Autowired
-    JwtService jwtService;
 
 
     @Override
@@ -45,9 +40,8 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UserAlreadyExists("User Exists");
         else{
             customerRepository.save(customer);
-            return true;}
-
-
+            return true;
+        }
     }
 
     @Override
@@ -63,18 +57,5 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UnauthorizedException("User not found");
     }
 
-    @Override
-    public String acceptInvitation(String mobNo, Integer invitationId) {
-        OutletInvitation invitation =outletInvitationRepository.findByIdAndInviteeMobileNo(invitationId,mobNo);
-        if(invitation==null){
-            throw new UnauthorizedException("Invitation does not exist or exists but not for you");
-        }
-        outletInvitationRepository.delete(invitation);
-       return jwtService.generateToken(mobNo, Role.manager,invitation.getOutletId());
-    }
 
-    @Override
-    public List<OutletInvitation> getALlInvitation(String mobNo) {
-        return outletInvitationRepository.findAllByInviteeMobileNo(mobNo);
-    }
 }

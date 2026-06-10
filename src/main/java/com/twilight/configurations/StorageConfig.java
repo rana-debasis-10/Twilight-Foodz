@@ -2,6 +2,7 @@ package com.twilight.configurations;
 
 import java.net.URI;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,10 @@ public class StorageConfig {
                             .build()
                 )
                 .build();
+    }
+    @Bean
+    Tika getTika(){
+        return new Tika();
     }
 }
 

@@ -6,6 +6,7 @@ import com.twilight.repositories.OutletInvitationRepository;
 import com.twilight.repositories.RestaurantRepository;
 import com.twilight.services.MerchantService;
 import com.twilight.types.InvitationStatus;
+import com.twilight.types.OutletStatus;
 import com.twilight.types.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,8 @@ public class MerchantServiceImpl implements MerchantService {
         Outlet outlet = new Outlet();
         outlet.setLatitude(point.lat());
         outlet.setLongitude(point.lon());
-        OutletMember owner = new OutletMember();
-        owner.setMobNo(mobNo);
-        owner.setOutlet(outlet);
-        owner.setRole(Role.merchant);
-        outlet.getMembers().add(owner);
-        restaurant.getOutlet().add(outlet);
+        outlet.setOutletStatus(OutletStatus.closed);
+        outlet.setMerchant(mobNo);
         outlet.setRestaurant(restaurant);
         restaurantRepository.save(restaurant);
     }

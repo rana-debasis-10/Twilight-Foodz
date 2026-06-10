@@ -1,5 +1,6 @@
 package com.twilight.objects;
 
+import com.twilight.annotations.MobileNumber;
 import com.twilight.types.OutletStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,9 +31,6 @@ public class Outlet implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @OneToMany(mappedBy ="outlet",cascade= CascadeType.ALL)
-    List<OutletMember> members = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
@@ -40,11 +38,18 @@ public class Outlet implements Serializable {
     @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
     private List<Food> foods;
 
-    private Double longitude,
-            latitude;
+    private Double longitude, latitude;
 
     @Enumerated(EnumType.STRING)
     private OutletStatus outletStatus;
+
+    @Column(unique = true)
+    @MobileNumber
+    private String merchant;
+
+    @MobileNumber
+    @Column(unique = true)
+    private String manager;
 
 
 }

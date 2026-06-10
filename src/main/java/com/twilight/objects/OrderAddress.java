@@ -15,7 +15,7 @@ public class OrderAddress {
     private String street;
     private String landMark;
 
-    @OneToOne(mappedBy = "delivery_address")
+    @OneToOne(mappedBy = "deliveryAddress")
     private Order order;
 
 

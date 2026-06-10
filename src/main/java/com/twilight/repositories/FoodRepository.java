@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull String> {
@@ -43,6 +44,8 @@ public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull Str
             String outletId,
             List<String> foodIds
     );
+
+    Optional<Food> findFoodByIdAndOutletId(String foodId, String outletId);
 }
 
 

@@ -38,3 +38,4 @@ out/
 src/main/resources/
 rzp-key.csv
 docker-compose.yml
+*.jpeg

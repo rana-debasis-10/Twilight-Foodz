@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OutletRepository extends JpaRepository<Outlet,String> {
 
@@ -42,16 +43,16 @@ public interface OutletRepository extends JpaRepository<Outlet,String> {
 
         @Query("""
                 select new com.twilight.objects.Point(
-                o.latitude,
-                o.longitude
+                        o.latitude,
+                        o.longitude
                 )
                 from Outlet as o
                 
                 where o.id = :outletId
-                and o.outletStatus = package com.twilight.types.OutletStatus.open
+                and o.outletStatus =  com.twilight.types.OutletStatus.open
                 """)
         Point findLocationByIdAndStatus(@Param("outletId") String outletId);
 
 
-
+    Optional<String> findByManager(String manager);
 }

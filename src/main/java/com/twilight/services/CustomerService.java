@@ -10,7 +10,5 @@ public interface CustomerService {
     Customer loadCustomer(String mobNo);
     boolean createCustomer(String mobNo,String name);
     void addAddress(String mobNo,CustomerAddress address);
-    String acceptInvitation(String mobNo,Integer invitationId);
-    public List<OutletInvitation> getALlInvitation(String mobNo);
 
 }

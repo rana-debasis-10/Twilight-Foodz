@@ -31,20 +31,6 @@ public class CustomerEndpoints {
         String mobNo = userContext.getMobile_Number();
         return Optional.ofNullable(customerMapper.toCustomerR(service.loadCustomer(mobNo)));
     }
-    @PostMapping("/create")
-    boolean create(@RequestBody(required = true) Name name ){
-        String mobNo = userContext.getMobile_Number();
-        return service.createCustomer(mobNo,name.name());
-    }
-    @GetMapping("/invitations/accept")
-    String acceptInvitation(@RequestParam(name ="i") Integer invitationId){
-        String mobNo= userContext.getMobile_Number();
-        return service.acceptInvitation(mobNo,invitationId);
-    }
-    @GetMapping("/invitation/show")
-    List<OutletInvitation> showInvitations(){
-        String mobNo= userContext.getMobile_Number();
-        return service.getALlInvitation(mobNo);
-    }
+
 
 }

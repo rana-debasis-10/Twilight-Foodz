@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MerchantMapper {
     @Mapping(target = "restaurant", ignore = true)
-    @Mapping(target = "deliveryMobNo", ignore = true)
     Merchant toMerchant(MerchantR merchantR);
 
 }
