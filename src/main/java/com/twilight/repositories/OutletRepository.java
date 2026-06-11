@@ -2,7 +2,7 @@ package com.twilight.repositories;
 
 import com.twilight.dataTransferObjects.OutletR;
 import com.twilight.objects.Outlet;
-import com.twilight.objects.Point;
+import com.twilight.dataTransferObjects.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -54,5 +54,23 @@ public interface OutletRepository extends JpaRepository<Outlet,String> {
         Point findLocationByIdAndStatus(@Param("outletId") String outletId);
 
 
-    Optional<String> findByManager(String manager);
+    Optional<String> findIdByManager(String manager);
+
+
+        @Query("""
+    SELECT new com.twilight.dataTransferObjects.OutletR(
+        o.id AS outletId,
+        r.name AS restaurantName,
+        r.image AS restaurantImage,
+        o.outletStatus AS outletStatus,
+        o.latitude AS latitude,
+        o.longitude AS longitude
+        )
+    FROM Outlet o
+    JOIN o.restaurant r
+    WHERE o.id = :outletId
+""")
+        Optional<OutletR> findByOutletId(
+                @Param("outletId") String outletId
+        );
 }

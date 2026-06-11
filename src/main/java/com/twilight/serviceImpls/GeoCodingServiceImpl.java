@@ -1,9 +1,8 @@
 package com.twilight.serviceImpls;
 
 import com.twilight.dataTransferObjects.AddressR;
-import com.twilight.objects.Point;
+import com.twilight.dataTransferObjects.Point;
 import com.twilight.services.GeoCodingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

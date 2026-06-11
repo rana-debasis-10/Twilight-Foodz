@@ -1,5 +1,6 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.dataTransferObjects.OutletR;
 import com.twilight.objects.Food;
 import com.twilight.objects.Outlet;
 import com.twilight.objects.OutletInvitation;
@@ -8,10 +9,12 @@ import com.twilight.repositories.OutletInvitationRepository;
 import com.twilight.repositories.OutletRepository;
 import com.twilight.services.ManagerService;
 import com.twilight.types.OutletStatus;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class ManagerServiceImpl implements ManagerService {
     @Autowired
     OutletInvitationRepository outletInvitationRepository;
@@ -27,7 +30,7 @@ public class ManagerServiceImpl implements ManagerService {
     public String findLinkedOutlet(String mobNo)
             throws ChangeSetPersister.NotFoundException {
         return outletRepository.
-                findByManager(mobNo)
+                findIdByManager(mobNo)
                 .orElseThrow(ChangeSetPersister
                         .NotFoundException::new);
     }
@@ -53,8 +56,8 @@ public class ManagerServiceImpl implements ManagerService {
             throws ChangeSetPersister.NotFoundException {
         return outletInvitationRepository.findByInviteeMobileNo(mobNo).orElseThrow(ChangeSetPersister.NotFoundException::new);
     }
-
-    public void updateFoodPrice(String outletId ,String foodId, Double price)
+    @Override
+    public void updateFoodPrice(String outletId, String foodId, Double price)
             throws ChangeSetPersister.NotFoundException
     {
         Food food = foodRepository.
@@ -65,18 +68,30 @@ public class ManagerServiceImpl implements ManagerService {
         food.setPriceOverride(price);
         foodRepository.save(food);
     }
-    public void makeFoodAvailable(String outletId ,String foodId) throws ChangeSetPersister.NotFoundException {
+
+    @Override
+    public void makeFoodAvailable(String outletId, String foodId) throws ChangeSetPersister.NotFoundException {
        updateFoodAvailability(outletId,foodId,true);
     }
-    public void makeFoodUnavailable(String outletId ,String foodId) throws ChangeSetPersister.NotFoundException {
+    @Override
+    public void makeFoodUnavailable(String outletId, String foodId) throws ChangeSetPersister.NotFoundException {
         updateFoodAvailability(outletId,foodId,false);
     }
+    @Override
     public void openOutlet(String outletId)throws ChangeSetPersister.NotFoundException {
         operateOutlet(outletId,OutletStatus.open);
     }
+    @Override
     public void closeOutlet(String outletId)throws ChangeSetPersister.NotFoundException {
         operateOutlet(outletId,OutletStatus.closed);
     }
+
+    @Override
+    public OutletR viewOutlet(String outlet) throws BadRequestException {
+        return outletRepository.findByOutletId(outlet).orElseThrow(BadRequestException::new);
+
+    }
+
     private void operateOutlet(String outletId,OutletStatus status)throws ChangeSetPersister.NotFoundException {
         Outlet outlet = outletRepository.findById(outletId).orElseThrow(ChangeSetPersister
                 .NotFoundException::new);

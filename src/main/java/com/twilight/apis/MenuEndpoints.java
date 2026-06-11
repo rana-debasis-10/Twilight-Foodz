@@ -8,12 +8,13 @@ import com.twilight.services.MenuService;
 import com.twilight.services.StorageService;
 import com.twilight.utils.UserContext;
 import com.twilight.validators.ImageValidator;
+import jakarta.transaction.Transactional;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -45,17 +46,26 @@ public class MenuEndpoints {
             value = "/add",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
+    @Transactional
     public void addProducts(
             @RequestPart("products") List<ProductR> products,
             @RequestPart("file") List<MultipartFile> images
     ) throws IOException, ChangeSetPersister.NotFoundException {
-        if(products.size()==images.size()){
-            throw new BadRequestException("Must have equal number of images as products");
+
+        String mobNo = userContext.getMobile_Number();
+
+        if(menuService.checkForMenuAdded(mobNo)){
+            throw new BadRequestException("Menu can be added only once");
+        };
+
+        if(products.size()==images.size() && products.size()<=100){
+            throw new BadRequestException("Must have equal number of images as products and should be less than 100");
         }
+
         if(!imageValidator.validateImages(images)){
             throw new BadRequestException("Invalid File Type");
         }
-        String mobNo = userContext.getMobile_Number();
+
 
         Map<String, MultipartFile> fileMap = images.stream()
                 .collect(Collectors.toMap(
@@ -86,11 +96,26 @@ public class MenuEndpoints {
         }
         menuService.addProducts(mobNo,productsDb);
     }
-    public void addProduct(@RequestPart("products") ProductR product,
-                           @RequestPart("file") MultipartFile image) throws IOException {
+
+
+    @PostMapping(
+            value ="/add/product",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    @Transactional
+    public void addProduct(@RequestPart("products") ProductR productR,
+                           @RequestPart("file") MultipartFile image) throws IOException, ChangeSetPersister.NotFoundException {
+        String mobNo = userContext.getMobile_Number();
 
        if(!imageValidator.validateImage(image))
            throw new BadRequestException();
+
+       String imageKey = storageService.upload(image,"products");
+
+       Product product = productMapper.toProduct(productR);
+
+       product.setImage(imageKey);
+       menuService.addProduct(mobNo,product);
 
     }
 }

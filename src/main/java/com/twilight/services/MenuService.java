@@ -12,4 +12,6 @@ public interface MenuService {
     void addProduct(String mobNo, Product product) throws ChangeSetPersister.NotFoundException;
 
     void overrideFoodPrice(String outletId, String foodId);
+
+    boolean checkForMenuAdded(String mobNo)throws ChangeSetPersister.NotFoundException;
 }

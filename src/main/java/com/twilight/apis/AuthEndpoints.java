@@ -27,7 +27,9 @@ public class AuthEndpoints {
 
     @PostMapping ("/verify")
     @Validated
-    String verify(@RequestParam(name = "m") @MobileNumber String mobNo, @RequestParam(name = "v")String otp) throws InvalidTypeException{
+    String verify(
+            @RequestParam(name = "m") @MobileNumber String mobNo,
+            @RequestParam(name = "v")String otp) throws InvalidTypeException{
 
         try{
             if(messageService.verifyOtp(mobNo, otp))

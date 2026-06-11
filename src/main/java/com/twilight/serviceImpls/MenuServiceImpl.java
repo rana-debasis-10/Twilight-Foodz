@@ -77,4 +77,10 @@ public class MenuServiceImpl implements MenuService {
     public void overrideFoodPrice(String outletId, String foodId) {
 
     }
+
+    @Override
+    public boolean checkForMenuAdded(String mobNo) throws ChangeSetPersister.NotFoundException {
+        Restaurant restaurant = findRestaurantByMobNo(mobNo);
+        return restaurant.isMenuAdded();
+    }
 }

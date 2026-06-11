@@ -1,0 +1,88 @@
+#Spring Configuration ------------------------------------------#
+spring:
+  application:
+    name: Twilight
+
+  #Servlet Configuration ----------------------------------------#
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 50MB
+
+  #Database connection -------------------------------------------#
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+
+  #Redis Configuration -------------------------------------------#
+  redis:
+    host: localhost
+    port: 6379
+
+  #Apache Kafka Configuration --------------------------------------#
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.support.serializer.JsonSerializer
+
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.support.serializer.JsonDeserializer
+
+
+#JWT Security ----------------------------------------------------#
+jwt:
+  secret:
+    key: ${JWT_SECRET}
+
+#Razorpay Config ------------------------------------------------#
+razorpay:
+  key:
+    id: ${RAZORPAY_KEY}
+    secret: ${RAZORPAY_SECRET}
+  webhook:
+    secret: &{WEBHOOK_SECRET}
+
+#Message Service Configuration ----------------------------------#
+message:
+  key: ${MESSAGE_KEY}
+  endpoint: ${MESSAGE_ENDPOINT}
+
+
+
+
+#Storage Configuration -------------------------------------------#
+
+storage:
+  client:
+    region: ${STORAGE_CLIENT_REGION}
+    endpoint: ${STORAGE_CLIENT_ENDPOINT}
+    bucket: ${STORAGE_CLIENT_BUCKE}
+  access-key: ${STORAGE_ACCESS_KEY}
+  secret-key: ${STORAGE_SECRET_KEY}
+
+#Logging Configuration --------------------------------------------#
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+
+#Server Configuration ---------------------------------------------#
+server:
+  port: 8080
+
+  error:
+    include-binding-errors: always
+    include-message: always

@@ -27,6 +27,8 @@ public class Restaurant {
     @JoinColumn(name = "mob_no")
     private Merchant merchant;
 
+    boolean menuAdded;
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 

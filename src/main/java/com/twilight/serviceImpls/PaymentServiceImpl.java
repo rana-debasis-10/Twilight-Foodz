@@ -4,7 +4,7 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.razorpay.Utils;
-import com.twilight.dataTransferObjects.payment.Payment;
+import com.twilight.dataTransferObjects.Payment;
 import com.twilight.exceptions.UnauthorizedException;
 import com.twilight.services.PaymentService;
 import org.json.JSONObject;

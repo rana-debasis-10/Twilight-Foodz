@@ -1,5 +1,6 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.dataTransferObjects.Point;
 import com.twilight.objects.*;
 import com.twilight.repositories.MerchantRepository;
 import com.twilight.repositories.OutletInvitationRepository;
@@ -7,13 +8,10 @@ import com.twilight.repositories.RestaurantRepository;
 import com.twilight.services.MerchantService;
 import com.twilight.types.InvitationStatus;
 import com.twilight.types.OutletStatus;
-import com.twilight.types.Role;
 import jakarta.transaction.Transactional;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -46,13 +44,24 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public void inviteManager(String inviterMobNo, String inviteeMobNo, String outletId) {
+    public OutletInvitation inviteManager(String inviterMobNo, String inviteeMobNo, String outletId) {
         OutletInvitation invitation = new OutletInvitation();
         invitation.setInviteeMobileNo(inviteeMobNo);
         invitation.setOutletId(outletId);
         invitation.setStatus(InvitationStatus.pending);
-        invitationRepository.save(invitation);
+        return invitationRepository.save(invitation);
     }
+
+    @Override
+    public OutletInvitation inviteOtherManager(String merchantMobNo, String inviteeMobNo, Integer invitationId, String outletId) throws BadRequestException {
+        OutletInvitation invitation = invitationRepository.findById(invitationId).orElseThrow(BadRequestException::new);
+        if(invitation.getOutletId().equals(outletId)){
+            throw new BadRequestException();
+        }
+        invitationRepository.delete(invitation);
+        return inviteManager(merchantMobNo,inviteeMobNo,outletId);
+    }
+
     private Restaurant findRestaurantByMobNo(String mobNo){
         return restaurantRepository.findByMerchantMobNo(mobNo).orElse(null);
     };

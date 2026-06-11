@@ -8,13 +8,15 @@ import com.twilight.exceptions.UnauthorizedException;
 import com.twilight.mappers.MerchantMapper;
 import com.twilight.mappers.RestaurantMapper;
 import com.twilight.objects.Merchant;
-import com.twilight.objects.Point;
+import com.twilight.dataTransferObjects.Point;
 import com.twilight.objects.Restaurant;
 import com.twilight.services.*;
 import com.twilight.types.Role;
 import com.twilight.utils.UserContext;
 
+import com.twilight.validators.ImageValidator;
 import jakarta.transaction.Transactional;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -46,12 +48,16 @@ public class RestaurantEndpoints {
     @Autowired
     GeoCodingService geoCoding;
 
+    @Autowired
+    ImageValidator imageValidator;
+
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
     public String register(@RequestPart("merchant") MerchantR merchantR,
                          @RequestPart("restaurant") RestaurantR restaurantR,
                          @RequestPart("file") MultipartFile image) throws IOException {
-
+            if(!imageValidator.validateImage(image))
+                throw new BadRequestException();
             Restaurant restaurant = restaurantMapper.toRestaurant(restaurantR);
             Merchant merchant = merchantMapper.toMerchant(merchantR);
             String mobNo = userContext.getMobile_Number();

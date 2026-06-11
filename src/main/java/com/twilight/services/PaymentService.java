@@ -2,9 +2,8 @@ package com.twilight.services;
 
 
 import com.razorpay.RazorpayException;
-import com.twilight.dataTransferObjects.payment.Payment;
+import com.twilight.dataTransferObjects.Payment;
 import com.twilight.exceptions.UnauthorizedException;
-import org.springframework.http.HttpStatusCode;
 
 import java.util.Map;
 

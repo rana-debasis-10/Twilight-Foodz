@@ -2,7 +2,7 @@ package com.twilight.serviceImpls;
 
 import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.dataTransferObjects.OutletR;
-import com.twilight.objects.Point;
+import com.twilight.dataTransferObjects.Point;
 import com.twilight.repositories.FoodRepository;
 import com.twilight.repositories.OutletRepository;
 import com.twilight.services.SearchService;

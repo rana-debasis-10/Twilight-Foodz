@@ -38,7 +38,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
 	//Razorpay Dependency
-    implementation( "com.razorpay:razorpay-java:1.5.0")
+    implementation( "com.razorpay:razorpay-java:1.4.8")
 
 	//AWS Development Platform
     implementation(platform("software.amazon.awssdk:bom:2.25.61"))
@@ -72,7 +72,7 @@ dependencies {
 	runtimeOnly("com.mysql:mysql-connector-j");
 
 	//PostgreSQL Connector Dependency
-	runtimeOnly("org.postgresql:postgresql:42.6.4")
+	runtimeOnly("org.postgresql:postgresql:42.7.11")
 
 	//Apache Tika Dependency
 	implementation("org.apache.tika:tika-core:3.2.3")
