@@ -6,9 +6,14 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record OrderR(
-        String outletId ,
-        @NotNull List<ItemR> foods,
-        AddressR addressR,
+        @NotNull
+        Integer outletId,
+        @NotNull
+        List<ItemR>foods,
+        @NotNull
+        Address address,
+        @NotNull
         @MobileNumber String deliveryMobNo,
+        @NotNull
         @NotNull PaymentMethod paymentMethod
 ){}

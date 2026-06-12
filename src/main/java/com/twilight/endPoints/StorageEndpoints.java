@@ -1,4 +1,4 @@
-package com.twilight.apis;
+package com.twilight.endPoints;
 
 import com.twilight.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;

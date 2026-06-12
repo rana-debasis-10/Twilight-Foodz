@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 # shellcheck disable=SC2164
 cd ~/workspace/Twilight.org/scripts/
 
@@ -7,9 +8,12 @@ rm dump.txt &>/dev/null
 touch dump.txt &>/dev/null
 
 ./dump.sh > dump.txt
-dump_status=$?
-./check.sh "$dump_status" "Dump"
 
-./export.sh
-export_status=$?
-./check.sh "$export_status" "Export"
+source ./export.sh
+
+# shellcheck disable=SC2164
+./docker-check.sh
+
+# shellcheck disable=SC2164
+cd ~/workspace/Twilight.org/scripts/
+./run-application.sh

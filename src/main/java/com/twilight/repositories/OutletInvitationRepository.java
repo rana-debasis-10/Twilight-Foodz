@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OutletInvitationRepository extends JpaRepository<OutletInvitation,Integer> {
-    Optional<OutletInvitation> findByIdAndInviteeMobileNo(@NonNull Integer invitationId, @NonNull String inviteeMobileNo);
-
-    Optional<OutletInvitation> findByInviteeMobileNo(String inviteeMobileNo);
+public interface OutletInvitationRepository extends JpaRepository <OutletInvitation,Integer> {
+    List<OutletInvitation> findByInviteeMobileNo(String inviteeMobileNo);
 }

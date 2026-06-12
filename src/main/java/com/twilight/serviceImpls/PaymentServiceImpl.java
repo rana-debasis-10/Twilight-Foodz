@@ -5,7 +5,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.razorpay.Utils;
 import com.twilight.dataTransferObjects.Payment;
-import com.twilight.exceptions.UnauthorizedException;
+import com.twilight.exceptions.UnAuthorizedException;
 import com.twilight.services.PaymentService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public void handlePayment(Payment payment) {
+    public void verifyPayment(Payment payment) {
         JSONObject options = new JSONObject();
         options.put("order_id", payment.orderId());
         options.put("payment_id", payment.paymentId());
@@ -39,7 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
             Utils.verifyPaymentSignature(options, keySecret);
         }
         catch (RazorpayException e){
-           throw new UnauthorizedException(e.getMessage());
+           throw new UnAuthorizedException(e.getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             Utils.verifyWebhookSignature(payload, signature, webhookSecret);
         } catch (RazorpayException e) {
-            throw new UnauthorizedException(e.getMessage());
+            throw new UnAuthorizedException(e.getMessage());
         }
     }
 

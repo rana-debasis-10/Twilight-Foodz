@@ -1,6 +1,6 @@
 package com.twilight.mappers;
 
-import com.twilight.dataTransferObjects.AddressR;
+import com.twilight.dataTransferObjects.Address;
 import com.twilight.objects.OrderAddress;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,10 +9,10 @@ import org.mapstruct.Mapping;
 public interface OrderAddressMapper {
     @Mapping(target = "orderAddress.order", ignore = true)
     @Mapping(target = "orderAddress.id",ignore =true)
-    public AddressR toAddressR(OrderAddress orderAddress);
+    public Address toAddressR(OrderAddress orderAddress);
 
     @Mapping(target ="order", ignore =true)
     @Mapping(target = "id",ignore =true)
 
-    OrderAddress toAddress(AddressR address);
+    OrderAddress toAddress(Address address);
 }

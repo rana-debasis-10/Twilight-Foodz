@@ -1,10 +1,8 @@
-package com.twilight.apis;
+package com.twilight.endPoints;
 
 import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.dataTransferObjects.OutletR;
-import com.twilight.objects.Outlet;
 import com.twilight.services.SearchService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +21,7 @@ public class SearchEndpoint {
         return searchService.findNearestOutlets(lat,lon);
     }
     @GetMapping("/food")
-    public List<FoodR> getFoods(@RequestParam(name = "o") String outletId){
+    public List<FoodR> getFoods(@RequestParam(name = "o")Integer outletId){
         return searchService.getFoods(outletId);
     }
 

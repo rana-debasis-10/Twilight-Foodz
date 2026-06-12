@@ -1,6 +1,9 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.exceptions.NotFoundException;
+import com.twilight.exceptions.SomethingWentWrongException;
 import com.twilight.services.MessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,9 +11,11 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
 import java.util.Random;
 
 @Service
+@Slf4j
 public class MessageServiceImpl implements MessageService {
 
     @Value("${message.key}")
@@ -21,12 +26,20 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private RedisTemplate<String,String> redis;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
     @Override
-    public void sendOtp(String mobNo) {
-        HttpHeaders headers = new HttpHeaders();
+    public void sendOtp(String mobNo) throws NotFoundException , SomethingWentWrongException {
+
         String otp = generateOtp();
-        redis.opsForValue().set(mobNo, otp);
+        try {
+            redis.opsForValue().set(mobNo, otp);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new SomethingWentWrongException("Some Service is unavailable at this moment");
+        }
+
+        HttpHeaders headers = new HttpHeaders();
 
         headers.set("number", mobNo);
         headers.set("otp", otp);
@@ -34,21 +47,32 @@ public class MessageServiceImpl implements MessageService {
 
         HttpEntity<Void> request =
                 new HttpEntity<>(headers);
+        ResponseEntity<String> response;
 
-        ResponseEntity<String> response =
-                restTemplate.exchange(
-                        endpointUrl + "/send-sms",
-                        HttpMethod.POST,
-                        request,
-                        String.class
-                );
-        response.getStatusCode().is2xxSuccessful();
+        try{
+           response =
+                    restTemplate.exchange(
+                            endpointUrl + "/send-sms",
+                            HttpMethod.POST,
+                            request,
+                            String.class
+                    );
+        } catch (RuntimeException e) {
+            throw new NotFoundException("This Service is currently under maintenance");
+        }
+        if(response.getStatusCode().is2xxSuccessful())
+            throw new SomethingWentWrongException("SMS server is unable to send OTP currently");
 
     }
 
     @Override
-    public boolean verifyOtp(String mobNo, String otp) {
-       return (redis.opsForValue().get(mobNo)).equals(otp);
+    public boolean verifyOtp(String mobNo, Integer otp) {
+        try {
+            return Objects.equals(redis.opsForValue().get(mobNo), otp.toString());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new SomethingWentWrongException("Some Service is unavailable at this moment");
+        }
     }
 
     private String generateOtp() {

@@ -1,20 +1,20 @@
 package com.twilight.serviceImpls;
 
-import com.twilight.exceptions.UnauthorizedException;
-import com.twilight.exceptions.UserAlreadyExists;
+import com.twilight.exceptions.NotFoundException;
+import com.twilight.exceptions.SqlException;
+import com.twilight.exceptions.UnAuthorizedException;
 import com.twilight.objects.Customer;
 import com.twilight.objects.CustomerAddress;
-import com.twilight.objects.OutletInvitation;
+import com.twilight.repositories.CustomerAddressRepository;
 import com.twilight.repositories.CustomerRepository;
-import com.twilight.repositories.OutletInvitationRepository;
 import com.twilight.services.CustomerService;
-import com.twilight.services.JwtService;
 
-import com.twilight.types.Role;
+import com.twilight.types.AddressType;
+import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -22,39 +22,42 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    CustomerAddressRepository customerAddressRepository;
 
 
 
     @Override
-    public Customer loadCustomer(String mobNo) {
-        Optional<Customer> customer = customerRepository.findById(mobNo);
-        return customer.orElse(null);
+    public Customer load(String mobNo) throws UnAuthorizedException {
+        return customerRepository.findById(mobNo).orElseThrow(()->new NotFoundException("Not registered"));
     }
 
     @Override
-    public boolean createCustomer(String mobNo,String name) {
+    public void create(String mobNo, String name) throws UnAuthorizedException, SqlException {
+        customerRepository.findById(mobNo)
+                .ifPresent(customer ->{
+                        throw new UnAuthorizedException("User already exists");
+                    }
+                );
         Customer customer = new Customer();
         customer.setName(name);
         customer.setMobNo(mobNo);
-        if(customerRepository.findById(mobNo).isPresent())
-            throw new UserAlreadyExists("User Exists");
-        else{
+        try{
             customerRepository.save(customer);
-            return true;
+        } catch (Exception e) {
+            throw new SqlException(e.getMessage());
         }
     }
 
     @Override
-    public void addAddress(String mobNo,CustomerAddress address) {
-        Optional<Customer> customer = customerRepository.findById(mobNo);
-        if(customer.isPresent()){
-            Customer customer1 = customer.get();
-            customer1.getAddresses().add(address);
-            address.setCustomer(customer1);
-            customerRepository.save(customer1);
+    public void addAddressAsType(@NonNull Customer customer, @NotNull CustomerAddress address) {
+        address.setCustomer(customer);
+        try
+        {
+            customerAddressRepository.save(address);
+        } catch (RuntimeException e) {
+            throw new SqlException(e.getMessage());
         }
-        else
-            throw new UnauthorizedException("User not found");
     }
 
 

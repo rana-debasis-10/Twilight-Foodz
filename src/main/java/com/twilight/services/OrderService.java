@@ -8,9 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface OrderService {
     @Transactional
-    public Map<String, Object> createOrder(String mobNo, Order order) throws Exception;
+    public Map<String, Object> create(String mobNo, Order order) throws Exception;
 
     @Transactional
-    public List<Order> getOrders(String mobNo, int page);
+    public List<Order> get(String mobNo, int page);
+
 
 }

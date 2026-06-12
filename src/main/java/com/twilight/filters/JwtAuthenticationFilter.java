@@ -21,6 +21,7 @@ import java.util.Collection;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+        @Autowired
         JwtService jwtService;
 
         @Autowired
@@ -45,8 +46,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             Claims claims = jwtService.extractClaims(token);
+
             String mobNo = claims.getSubject();
-            String establishment = claims.get("Establishment",String.class);
+
+            Object credential = claims.get("Credential", Object.class);
 
             Role role = Role.valueOf(claims.get("Role", String.class));
 
@@ -58,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(mobNo,establishment, authorities);
+                    new UsernamePasswordAuthenticationToken(mobNo , credential , authorities);
 
             authentication.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)

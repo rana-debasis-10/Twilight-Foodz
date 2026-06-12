@@ -1,28 +1,22 @@
 package com.twilight.services;
 
+import com.twilight.annotations.MobileNumber;
 import com.twilight.types.Role;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.crypto.SecretKey;
-import java.util.*;
+import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface JwtService {
 
-    public String generateToken( String mobNo,Role role) ;
+    public String generateToken(@MobileNumber @NotNull String mobNo, @NonNull Role role) ;
 
-    public String generateToken(String mobNo , Role role , String establishment);
+    public String generateToken(@MobileNumber @NotNull String mobNo , @NonNull Role role , Object credential);
 
-    public boolean isTokenValid(String token) ;
+    public String generateToken(@MobileNumber @NotNull String mobNo , @NonNull Role role , Object credential, Long lifespan);
 
-    public Claims extractClaims(String token) ;
+    public boolean isTokenValid(@NonNull @NotNull String token) ;
+
+    public Claims extractClaims(@NonNull @NotNull String token) ;
 
 
 }

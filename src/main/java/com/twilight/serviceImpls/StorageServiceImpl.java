@@ -1,12 +1,17 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.exceptions.NotFoundException;
+import com.twilight.exceptions.SomethingWentWrongException;
 import com.twilight.services.StorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -16,6 +21,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class StorageServiceImpl implements StorageService {
 
@@ -30,35 +36,59 @@ public class StorageServiceImpl implements StorageService {
 
         String key = folder + "/" + UUID.randomUUID() + "-" + file.getOriginalFilename();
 
-        s3Client.putObject(
-                PutObjectRequest.builder()
-                        .bucket(bucket)
-                        .key(key)
-                        .contentType(file.getContentType())
-                        .build(),
-                RequestBody.fromInputStream(file.getInputStream(), file.getSize())
-        );
+        try {
+            s3Client.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucket)
+                            .key(key)
+                            .contentType(file.getContentType())
+                            .build(),
+                    RequestBody.fromInputStream(file.getInputStream(), file.getSize())
+            );
+        } catch (AwsServiceException | SdkClientException e) {
+            log.error(e.getMessage());
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new SomethingWentWrongException(e.getMessage());
+        }
 
         return key;
     }
 
     public Resource download(String key) {
-        byte[] data = s3Client.getObjectAsBytes(
-                GetObjectRequest.builder()
-                        .bucket(bucket)
-                        .key(key)
-                        .build()
-        ).asByteArray();
+        byte[] data = null;
+        try {
+            data = s3Client.getObjectAsBytes(
+                    GetObjectRequest.builder()
+                            .bucket(bucket)
+                            .key(key)
+                            .build()
+            ).asByteArray();
+        } catch (AwsServiceException e) {
+            log.error(e.getMessage());
+            throw new NotFoundException(e.getMessage());
+        } catch (SdkClientException e) {
+            log.error(e.getMessage());
+            throw new SomethingWentWrongException(e.getMessage());
+        }
 
         return new ByteArrayResource(data);
     }
 
     public void delete(String key) throws IOException {
-        s3Client.deleteObject(
-                DeleteObjectRequest.builder()
-                        .bucket(bucket)
-                        .key(key)
-                        .build()
-        );
+        try {
+            s3Client.deleteObject(
+                    DeleteObjectRequest.builder()
+                            .bucket(bucket)
+                            .key(key)
+                            .build()
+            );
+        } catch (AwsServiceException e) {
+            log.error(e.getMessage());
+            throw new NotFoundException(e.getMessage());
+        } catch (SdkClientException e) {
+            log.error(e.getMessage());
+            throw new SomethingWentWrongException(e.getMessage());
+        }
     }
 }

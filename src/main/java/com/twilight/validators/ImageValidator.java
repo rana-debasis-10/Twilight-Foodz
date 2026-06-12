@@ -1,5 +1,6 @@
 package com.twilight.validators;
 
+import com.twilight.exceptions.InvalidFileException;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,26 +20,20 @@ public class ImageValidator {
             "image/png",
             "image/webp"
     );
-    public boolean validateImages(List<MultipartFile> images) throws IOException , IllegalArgumentException{
+    public void validateImages(List<MultipartFile> images) throws IOException {
         Tika tika = new Tika();
         for (MultipartFile file : images) {
-
             String mimeType =
                     tika.detect(file.getInputStream());
-
             if (!ALLOWED_TYPES.contains(mimeType)) {
-                return false;
+                throw new InvalidFileException("Invalid file type : " + file.getOriginalFilename());
             }
         }
-        return true;
     }
     public boolean validateImage(MultipartFile file) throws IOException {
         String mimeType =
                 tika.detect(file.getInputStream());
 
-        if (!ALLOWED_TYPES.contains(mimeType)) {
-            return false;
-        }
-        return true;
+        return !ALLOWED_TYPES.contains(mimeType);
     }
 }

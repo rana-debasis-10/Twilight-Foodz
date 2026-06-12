@@ -1,5 +1,6 @@
 package com.twilight.utils;
 
+import com.twilight.annotations.MobileNumber;
 import lombok.Getter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,11 @@ import java.util.Objects;
 @RequestScope
 @Getter
 public class UserContext {
-    private final String Mobile_Number;
-    private final String establishment;
+    @MobileNumber
+    private final String mobNo;
+    private final Object credential;
     UserContext(){
-        this.Mobile_Number = (String) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
-        this.establishment = (String)SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        this.mobNo = (String) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        this.credential = (String)SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 }

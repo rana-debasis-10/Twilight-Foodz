@@ -10,3 +10,4 @@ else
   docker compose up -d
   echo "Docker services started successfully";
 fi
+cd ~/workspace/Twilight.org/scripts/

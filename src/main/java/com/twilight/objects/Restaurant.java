@@ -1,6 +1,7 @@
 package com.twilight.objects;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,19 +15,24 @@ import java.util.List;
 @NoArgsConstructor
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String image;
 
+    @NotNull
     private String fssai;
 
     @OneToOne
     @JoinColumn(name = "mob_no")
+    @NotNull
     private Merchant merchant;
 
+    @NotNull
     boolean menuAdded;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)

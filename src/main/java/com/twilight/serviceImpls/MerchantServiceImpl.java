@@ -1,17 +1,21 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.annotations.MobileNumber;
+import com.twilight.dataTransferObjects.OutletDetailed;
 import com.twilight.dataTransferObjects.Point;
 import com.twilight.objects.*;
 import com.twilight.repositories.MerchantRepository;
 import com.twilight.repositories.OutletInvitationRepository;
+import com.twilight.repositories.OutletRepository;
 import com.twilight.repositories.RestaurantRepository;
 import com.twilight.services.MerchantService;
-import com.twilight.types.InvitationStatus;
 import com.twilight.types.OutletStatus;
 import jakarta.transaction.Transactional;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -22,18 +26,20 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Autowired
     OutletInvitationRepository invitationRepository;
+    @Autowired
+    OutletRepository outletRepository;
 
     @Override
     @Transactional
     public void createOutlet(String mobNo, Point point) {
         Restaurant restaurant = findRestaurantByMobNo(mobNo);
         Outlet outlet = new Outlet();
-        outlet.setLatitude(point.lat());
-        outlet.setLongitude(point.lon());
+        outlet.setLatitude(point.latitude());
+        outlet.setLongitude(point.longitude());
         outlet.setOutletStatus(OutletStatus.closed);
-        outlet.setMerchant(mobNo);
+        outlet.setMerchantMobNo(mobNo);
         outlet.setRestaurant(restaurant);
-        restaurantRepository.save(restaurant);
+        outletRepository.save(outlet);
     }
 
     @Override
@@ -44,16 +50,15 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public OutletInvitation inviteManager(String inviterMobNo, String inviteeMobNo, String outletId) {
+    public OutletInvitation inviteManager(String inviterMobNo, String inviteeMobNo, Integer outletId) {
         OutletInvitation invitation = new OutletInvitation();
         invitation.setInviteeMobileNo(inviteeMobNo);
         invitation.setOutletId(outletId);
-        invitation.setStatus(InvitationStatus.pending);
         return invitationRepository.save(invitation);
     }
 
     @Override
-    public OutletInvitation inviteOtherManager(String merchantMobNo, String inviteeMobNo, Integer invitationId, String outletId) throws BadRequestException {
+    public OutletInvitation inviteOtherManager(String merchantMobNo, String inviteeMobNo, Integer outletId,Integer invitationId) throws BadRequestException {
         OutletInvitation invitation = invitationRepository.findById(invitationId).orElseThrow(BadRequestException::new);
         if(invitation.getOutletId().equals(outletId)){
             throw new BadRequestException();
@@ -61,6 +66,10 @@ public class MerchantServiceImpl implements MerchantService {
         invitationRepository.delete(invitation);
         return inviteManager(merchantMobNo,inviteeMobNo,outletId);
     }
+    @Override
+    public List<OutletDetailed> viewAllOutlets(@MobileNumber String merchantMobNo){
+        return outletRepository.findAllByMerchantMobNo(merchantMobNo);
+    };
 
     private Restaurant findRestaurantByMobNo(String mobNo){
         return restaurantRepository.findByMerchantMobNo(mobNo).orElse(null);

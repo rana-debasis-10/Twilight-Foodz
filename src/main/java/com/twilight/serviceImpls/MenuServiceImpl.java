@@ -1,10 +1,11 @@
 package com.twilight.serviceImpls;
 
+import com.twilight.dataTransferObjects.MenuUpdateR;
+import com.twilight.exceptions.NotFoundException;
+import com.twilight.exceptions.SomethingWentWrongException;
+import com.twilight.exceptions.UnAuthorizedException;
 import com.twilight.objects.*;
-import com.twilight.repositories.FoodRepository;
-import com.twilight.repositories.OutletRepository;
-import com.twilight.repositories.ProductRepository;
-import com.twilight.repositories.RestaurantRepository;
+import com.twilight.repositories.*;
 import com.twilight.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -29,58 +30,41 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     FoodRepository foodRepository;
+    @Autowired
+    EventService eventService;
 
 
-    public Restaurant findRestaurantByMobNo(String mobNo) throws ChangeSetPersister.NotFoundException {
-        return restaurantRepository.findByMerchantMobNo(mobNo).orElseThrow(ChangeSetPersister
-                .NotFoundException::new);
+    public Restaurant findRestaurantByMobNo(String mobNo) throws NotFoundException {
+        return restaurantRepository
+                .findByMerchantMobNo(mobNo)
+                .orElseThrow(
+                        ()->new NotFoundException("No Restaurant linked to your mobile number")
+                );
     }
 
     @Override
-    public void addProducts(String mobNo, List<Product> products) throws ChangeSetPersister.NotFoundException {
+    public void addAll(String mobNo, List<Product> products) throws NotFoundException {
         Restaurant restaurant = findRestaurantByMobNo(mobNo);
+        restaurant.setMenuAdded(true);
         products.forEach(product -> {
             product.setRestaurant(restaurant);
         });
-        productRepository.saveAll(products);
+        restaurant.setProducts(products);
+        restaurantRepository.save(restaurant);
     }
     @Override
-    public void addProduct(String mobNo, Product product) throws ChangeSetPersister.NotFoundException {
+    public void add(String mobNo, Product product) throws NotFoundException , SomethingWentWrongException {
         Restaurant restaurant = findRestaurantByMobNo(mobNo);
         product.setRestaurant(restaurant);
         product = productRepository.save(product);
-        AddProductRequest request = new AddProductRequest(product.getId(),restaurant.getId());
-        kafkaTemplate.send("new-product",request);
-    }
-    @KafkaListener(
-            topics = "new-product",
-            groupId = "new-product-consumer"
-    )
-    public void productConsumer(AddProductRequest request){
-        List<Outlet> outlets = outletRepository.findByRestaurantId(request.getRestaurantId());
-        Product product  = productRepository.findById(request.getProductId()).orElse(null);
-        if(product==null){
-            System.out.println("\n\nProduct Empty\n\n");
-            return;
-        }
-        List<Food> foods= new ArrayList<>();
-        outlets.forEach(outlet->{
-            Food food = new Food();
-            food.setProduct(product);
-            food.setOutlet(outlet);
-            foods.add(food);
-        });
-        foodRepository.saveAll(foods);
-
-    }
-    @Override
-    public void overrideFoodPrice(String outletId, String foodId) {
-
+        MenuUpdateR request = new MenuUpdateR(product.getId(),restaurant.getId());
+        eventService.send("Menu-Update",request);
     }
 
     @Override
-    public boolean checkForMenuAdded(String mobNo) throws ChangeSetPersister.NotFoundException {
+    public void checkForMenuAdded(String mobNo) throws UnAuthorizedException {
         Restaurant restaurant = findRestaurantByMobNo(mobNo);
-        return restaurant.isMenuAdded();
+        if(restaurant.isMenuAdded())
+            throw new UnAuthorizedException("Menu can be added once only");
     }
 }

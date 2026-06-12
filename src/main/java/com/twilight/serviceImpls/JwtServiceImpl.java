@@ -6,8 +6,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -24,7 +27,7 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     @Override
-    public String generateToken(String mobNo,Role role) {
+    public String generateToken(String mobNo, @NonNull Role role) {
         Map<String, Object> claims = new HashMap<>();
 
         return Jwts.builder()
@@ -38,11 +41,11 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(String mobNo, Role role, String establishment) {
+    public String generateToken(String mobNo, @NonNull Role role, Object credential) {
         return Jwts.builder()
                 .subject(mobNo)
                 .claim("Role",role.toString())
-                .claim("Establishment",establishment)
+                .claim("Credential",credential)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date((long) (System.currentTimeMillis() + 7.884e+9)))
                 .signWith(getKey())
@@ -50,7 +53,19 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token){
+    public String generateToken(String mobNo, @NonNull Role role, Object credential, Long lifespan) {
+        return Jwts.builder()
+                .subject(mobNo)
+                .claim("Role",role.toString())
+                .claim("Credential",credential)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date((long) (System.currentTimeMillis() + lifespan)))
+                .signWith(getKey())
+                .compact();
+    }
+
+    @Override
+    public boolean isTokenValid(@NonNull String token){
             try {
                 extractClaims(token);
                 return true;
@@ -59,7 +74,7 @@ public class JwtServiceImpl implements JwtService {
             }
     }
     @Override
-    public Claims extractClaims(String token){
+    public Claims extractClaims(@NonNull @NotNull String token){
         return Jwts.parser()
                 .verifyWith(getKey())
                 .build()

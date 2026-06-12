@@ -1,17 +1,17 @@
 package com.twilight.services;
 
-import com.twilight.objects.Food;
+import com.twilight.annotations.MobileNumber;
+import com.twilight.exceptions.NotFoundException;
+import com.twilight.exceptions.UnAuthorizedException;
 import com.twilight.objects.Product;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import software.amazon.awssdk.annotations.NotNull;
 
 import java.util.List;
 
 public interface MenuService {
-    void addProducts(String mobNo, List<Product> products) throws ChangeSetPersister.NotFoundException;
+    void addAll(String mobNo, List<Product> products) throws NotFoundException;
 
-    void addProduct(String mobNo, Product product) throws ChangeSetPersister.NotFoundException;
+    void add(String mobNo, Product product) throws NotFoundException;
 
-    void overrideFoodPrice(String outletId, String foodId);
-
-    boolean checkForMenuAdded(String mobNo)throws ChangeSetPersister.NotFoundException;
+    void checkForMenuAdded(@MobileNumber @NotNull String mobNo) throws UnAuthorizedException;
 }

@@ -18,7 +18,7 @@ public interface OrderMapper {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "deliveryMobNo", source = "deliveryMobNo")
     @Mapping(target = "paymentMethod", source = "paymentMethod")
-    @Mapping(target = "deliveryAddress", source = "addressR")
+    @Mapping(target = "deliveryAddress", source = "address")
     @Mapping(target = "items", source = "foods")
     @Mapping(target = "outletId" ,source = "outletId")
     @Mapping(

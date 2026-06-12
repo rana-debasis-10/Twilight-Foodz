@@ -1,6 +1,5 @@
 package com.twilight.objects;
 
-import com.twilight.dataTransferObjects.FoodR;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,8 +15,8 @@ import java.util.List;
 @Setter
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @NotNull(message = "Please enter a name")
     private String name;
@@ -25,6 +24,7 @@ public class Product {
     @NotNull(message = "Please enter a price")
     private Double price;
 
+    @NotNull
     private String image;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

@@ -1,4 +1,6 @@
 package com.twilight.dataTransferObjects;
 
-public record FoodPrice(String foodId , Double price) {
+import jakarta.validation.constraints.NotNull;
+
+public record FoodPrice(@NotNull Integer foodId , @NotNull Double price) {
 }

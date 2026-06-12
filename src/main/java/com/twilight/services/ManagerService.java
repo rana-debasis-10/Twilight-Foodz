@@ -1,30 +1,34 @@
 package com.twilight.services;
 
+import com.twilight.annotations.MobileNumber;
+import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.dataTransferObjects.OutletR;
+import com.twilight.exceptions.NotFoundException;
+import com.twilight.exceptions.SqlException;
 import com.twilight.objects.OutletInvitation;
 import org.apache.coyote.BadRequestException;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import software.amazon.awssdk.annotations.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ManagerService {
-    String findLinkedOutlet(String mobNo) throws ChangeSetPersister.NotFoundException;
+    Integer findLinkedOutlet(@MobileNumber String mobNo) throws NotFoundException;
 
-    String acceptInvitation(String mobNo,Integer invitationId) throws ChangeSetPersister.NotFoundException;
+    Integer acceptInvitation(@MobileNumber @NotNull String mobNo, @NotNull Integer invitationId) throws NotFoundException , SqlException;
 
-    public OutletInvitation getInvitation(String mobNo) throws ChangeSetPersister.NotFoundException;
+    List<OutletInvitation> getInvitation( @MobileNumber @NotNull String mobNo) throws NotFoundException;
 
-    void updateFoodPrice(String outletId, String foodId, Double price)
-            throws ChangeSetPersister.NotFoundException;
+    void updateFoodPrice(@NotNull Integer outletId, @NotNull Integer foodId, Double price) throws NotFoundException;
 
-    void makeFoodAvailable(String outletId, String foodId) throws ChangeSetPersister.NotFoundException;
+    void makeFoodAvailable(@NotNull Integer outletId , @NotNull Integer foodId) throws NotFoundException;
 
-    void makeFoodUnavailable(String outletId, String foodId) throws ChangeSetPersister.NotFoundException;
+    void makeFoodUnavailable(@NotNull Integer outletId, @NotNull Integer foodId) throws NotFoundException;
 
-    void openOutlet(String outletId)throws ChangeSetPersister.NotFoundException;
+    void openOutlet(@NotNull Integer outletId)throws NotFoundException;
 
-    void closeOutlet(String outletId)throws ChangeSetPersister.NotFoundException;
+    void closeOutlet(@NotNull Integer outletId)throws NotFoundException;
 
-    OutletR viewOutlet(String outlet) throws BadRequestException;
+    OutletR viewOutlet(@NotNull Integer outletId) throws BadRequestException;
+
+    List<FoodR> getAllFoods(@NotNull Integer outletId) throws NotFoundException;
 }

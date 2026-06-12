@@ -1,6 +1,6 @@
 package com.twilight.dataTransferObjects;
 
 
-public record Point( Double lat,Double lon) {
+import jakarta.validation.constraints.NotNull;
 
-}
+public record Point(@NotNull Double latitude, @NotNull Double longitude){}

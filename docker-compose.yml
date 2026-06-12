@@ -46,7 +46,7 @@ services:
       - "9001:9001"
 
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}Debasis
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
 
     command: server /data --console-address ":9001"

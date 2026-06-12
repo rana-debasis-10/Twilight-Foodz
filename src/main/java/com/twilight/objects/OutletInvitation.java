@@ -1,13 +1,10 @@
 package com.twilight.objects;
 
 import com.twilight.annotations.MobileNumber;
-import com.twilight.types.InvitationStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-
-import javax.annotation.processing.Generated;
 
 @Entity
 @Getter
@@ -15,15 +12,16 @@ import javax.annotation.processing.Generated;
 public class OutletInvitation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
-    @Column(unique = true)
     @MobileNumber
-    String inviteeMobileNo;
+    private String inviteeMobileNo;
 
-    String outletId;
+    @MobileNumber
+    private String inviterMobileNo;
 
-    @Enumerated(value = EnumType.STRING)
-    InvitationStatus status;
+    @NotNull
+    @Column(unique = true)
+    private Integer outletId;
 
 }

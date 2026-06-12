@@ -40,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<FoodR> getFoods(String outletId) {
+    public List<FoodR> getFoods(Integer outletId) {
         return foodRepository.findMenuByOutletId(outletId);
     }
 
@@ -73,8 +73,8 @@ public class SearchServiceImpl implements SearchService {
 
         return EARTH_RADIUS * c;
     }
-    public boolean isDeliverable(Double lat , Double lon, String outletId){
+    public boolean isDeliverable(Double lat , Double lon, Integer outletId){
         Point location = outletRepository.findLocationByIdAndStatus(outletId);
-        return distanceKm(lat,lon,location.lat(),location.lon()) <= 5.0;
+        return distanceKm(lat,lon,location.latitude(),location.longitude()) <= 5.0;
     }
 }

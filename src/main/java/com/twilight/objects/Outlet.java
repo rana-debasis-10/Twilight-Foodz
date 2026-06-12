@@ -2,7 +2,9 @@ package com.twilight.objects;
 
 import com.twilight.annotations.MobileNumber;
 import com.twilight.types.OutletStatus;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,19 +20,19 @@ import java.util.List;
 @AllArgsConstructor
 @Getter@Setter
 
-@Table(
-        uniqueConstraints = {
+@Table(uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "outlet_location", // Optional: Gives your constraint a custom database name
-                        columnNames = {"longitude", "latitude"} // Must match the actual database column names
+                        name = "outlet_location",
+                        columnNames = {"longitude", "latitude"}
                 )
         }
 )
 public class Outlet implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
@@ -38,18 +40,21 @@ public class Outlet implements Serializable {
     @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
     private List<Food> foods;
 
-    private Double longitude, latitude;
+    @NotNull
+    private Double longitude;
+    @NotNull
+    private Double latitude;
 
     @Enumerated(EnumType.STRING)
     private OutletStatus outletStatus;
 
-    @Column(unique = true)
+    @NotNull
     @MobileNumber
-    private String merchant;
+    private String merchantMobNo;
 
-    @MobileNumber
     @Column(unique = true)
-    private String manager;
-
+    @Nullable
+    @MobileNumber
+    private String managerMobNo;
 
 }

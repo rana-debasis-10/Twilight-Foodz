@@ -1,5 +1,5 @@
 package com.twilight.types;
 
 public enum Role {
-    super_admin, customer, merchant, driver, manager
+    undefined ,customer, driver,  manager , merchant , super_admin
 }

@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ItemRepository extends JpaRepository<@NonNull Item,@NonNull String> {
-    List<Item>findAllByOrderId(@NonNull String orderId);
+public interface ItemRepository extends JpaRepository<@NonNull Item,@NonNull Integer> {
+    List<Item>findAllByOrderId(@NonNull Integer orderId);
 }

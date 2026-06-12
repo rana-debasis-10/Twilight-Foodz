@@ -25,5 +25,6 @@ do
 done
 
 echo -e "-------------------------------Dumping Complete ---------------------------------------"
+cd ~/workspace/Twilight.org/scripts/
 
 

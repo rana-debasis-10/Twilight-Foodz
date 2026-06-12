@@ -1,4 +1,12 @@
 package com.twilight.dataTransferObjects;
 
-public record ProductR(String name, Double price ,String imageFileName) {
-}
+import jakarta.validation.constraints.NotNull;
+
+public record ProductR(
+        @NotNull
+        String name,
+        @NotNull
+        Double price ,
+        @NotNull
+        String imageFileName
+){}

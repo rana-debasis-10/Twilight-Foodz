@@ -53,7 +53,7 @@ razorpay:
     id: ${RAZORPAY_KEY}
     secret: ${RAZORPAY_SECRET}
   webhook:
-    secret: &{WEBHOOK_SECRET}
+    secret: ${WEBHOOK_SECRET}
 
 #Message Service Configuration ----------------------------------#
 message:

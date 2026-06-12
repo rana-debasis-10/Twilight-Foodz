@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull String> {
+public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull Integer> {
     @Query("""
     SELECT new com.twilight.dataTransferObjects.FoodR(
         f.id,
@@ -25,10 +25,9 @@ public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull Str
     FROM Food f
     JOIN f.product p
     WHERE f.outlet.id = :outletId
-      AND f.available = true
 """)
     List<FoodR> findMenuByOutletId(
-            @Param("outletId") String outletId
+            @Param("outletId") Integer outletId
     );
     @Query("""
     SELECT new com.twilight.dataTransferObjects.FoodPrice(
@@ -41,11 +40,13 @@ public interface FoodRepository extends JpaRepository<@NonNull Food,@NonNull Str
       AND f.available = true
 """)
     List<FoodPrice> findFoodPrices(
-            String outletId,
-            List<String> foodIds
+            Integer outletId,
+            List<Integer> foodIds
     );
 
-    Optional<Food> findFoodByIdAndOutletId(String foodId, String outletId);
+    Optional<Food> findFoodByIdAndOutletId(Integer foodId, Integer outletId);
+
+
 }
 
 

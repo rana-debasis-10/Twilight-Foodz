@@ -22,9 +22,11 @@ public class Merchant {
 
     @Id
     @MobileNumber
+    @Column(unique = true)
     private String mobNo;
 
     @NotNull
+    @Column(unique = true)
     private String email;
 
 
