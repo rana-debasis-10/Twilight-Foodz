@@ -16,7 +16,6 @@ import com.twilight.types.DeliveryStatus;
 import com.twilight.types.PaymentMethod;
 import com.twilight.types.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -51,12 +50,14 @@ public class OrderServiceImpl implements OrderService {
     public Map<String, Object > create(String mobNo, Order order) throws BadRequestException, RazorpayException {
 
         if(order.getItems().size()>=10)
-            throw new BadRequestException("Total number of unique items can not exceed 10");
+            throw new BadRequestException("Total number of unique items can not exceed 10", "");
 
         Customer customer = customerRepository
                 .findById(mobNo)
                 .orElseThrow(
-                        () -> new UnAuthorizedException("User does not exist")
+                        () -> new UnAuthorizedException(
+                                "No account found for the user of Mobile Number :"+mobNo
+                                ,"User does not exist")
                 );
 
 
@@ -123,8 +124,8 @@ public class OrderServiceImpl implements OrderService {
 
         if (foods.size() != foodIds.size()) {
             throw new BadRequestException(
-                    "Some foods are unavailable"
-            );
+                    "Some foods are unavailable",
+                    "");
         }
 
         return

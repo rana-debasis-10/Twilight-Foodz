@@ -1,6 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC2164
-cd ~/workspace/Twilight.org/src/main/java/com/twilight/apis/ || exit 1
+cd ~/workspace/Twilight.org/src/main/java/com/twilight/endPoints/ || exit 1
 echo -e "--------------------------------Dumping API files--------------------------------------"
 for file in *;
 do

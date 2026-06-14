@@ -3,5 +3,5 @@
 cd ~/workspace/Twilight.org/;
 
 ./gradlew clean
-./gradlew bootRun --info
+./gradlew bootRun --info --debug-jvm
 

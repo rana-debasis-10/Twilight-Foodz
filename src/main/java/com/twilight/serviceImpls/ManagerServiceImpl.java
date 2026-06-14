@@ -4,7 +4,6 @@ import com.twilight.dataTransferObjects.FoodR;
 import com.twilight.dataTransferObjects.OutletR;
 import com.twilight.exceptions.BadRequestException;
 import com.twilight.exceptions.NotFoundException;
-import com.twilight.exceptions.SqlException;
 import com.twilight.exceptions.UnAuthorizedException;
 import com.twilight.objects.Food;
 import com.twilight.objects.Manager;
@@ -41,24 +40,28 @@ public class ManagerServiceImpl implements ManagerService {
     public Integer findLinkedOutlet(String mobNo) throws NotFoundException {
         Manager manager = managerRepository
                 .findById(mobNo).
-                orElseThrow(()-> new NotFoundException("No linked outlet"));
+                orElseThrow(()-> new NotFoundException(
+                        "User is unable to find the outlet with Mobile Number :"
+                                + mobNo
+                        ,"No linked outlet"));
         return manager.getOutletId();
     }
 
     @Override
-    public Integer acceptInvitation(String mobNo, Integer invitationId) throws NotFoundException, SqlException {
+    public Integer acceptInvitation(String mobNo, Integer invitationId) throws NotFoundException{
         OutletInvitation invitation = outletInvitationRepository
                 .findById(invitationId)
-                .orElseThrow(()-> new NotFoundException("Invitation does not exist now"));
+                .orElseThrow(()-> new NotFoundException(
+                        "User is unable to find invitation with invitation id : "
+                                + invitationId + "and Mobile Number : "
+                                + mobNo
+                        ,"Invitation does not exist "));
         if(!invitation.getInviteeMobileNo().equals(mobNo))
-            throw new UnAuthorizedException("Invitation does not belong to you now");
+            throw new UnAuthorizedException("User trying to get invitation access","Invitation does not belong to you");
         Integer outletId = invitation.getOutletId();
         Manager manager = new Manager(mobNo,outletId);
-        try {
-            managerRepository.save(manager);
-        } catch (RuntimeException e) {
-            throw new SqlException("You can not manage multiple outlet");
-        }
+        managerRepository.save(manager);
+
         return outletId;
     }
 
@@ -71,7 +74,10 @@ public class ManagerServiceImpl implements ManagerService {
     public void updateFoodPrice(Integer outletId, Integer foodId, Double price) throws NotFoundException {
         Food food = foodRepository.
                     findFoodByIdAndOutletId(foodId,outletId).
-                    orElseThrow(()-> new NotFoundException("Food does not exist or does not belong your outlet"));
+                    orElseThrow(
+                            ()-> new NotFoundException(
+                                    "Merchant is not found"
+                                    ,"No Linked Try creating one"));
 
         food.setPriceOverride(price);
         foodRepository.save(food);
@@ -86,7 +92,7 @@ public class ManagerServiceImpl implements ManagerService {
         Food food = foodRepository.
                 findFoodByIdAndOutletId(foodId,outletId).
                 orElseThrow(()->
-                        new NotFoundException("Food does not exist or does not belong your outlet"));
+                        new NotFoundException("Expected food not found","Food does not exist or does not belong your outlet"));
         food.setAvailable(available);
     }
 
@@ -107,7 +113,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public OutletR viewOutlet(Integer outletId) throws BadRequestException {
-        return outletRepository.findByOutletId(outletId).orElseThrow(()-> new NotFoundException("Could not find your outlet"));
+        return outletRepository.findByOutletId(outletId).orElseThrow(()-> new NotFoundException("Expected outlet not found","Could not find your outlet"));
 
     }
 
@@ -115,10 +121,13 @@ public class ManagerServiceImpl implements ManagerService {
     public List<FoodR> getAllFoods(Integer outletId) throws NotFoundException {
         return foodRepository.findMenuByOutletId(outletId);
     }
+
+
+
     private void operateOutlet(Integer outletId,OutletStatus status)throws NotFoundException {
         Outlet outlet = outletRepository
                 .findById(outletId)
-                .orElseThrow(()-> new NotFoundException("Could not find your outlet"));
+                .orElseThrow(()-> new NotFoundException("Expected outlet not found","Could not find your outlet"));
         outlet.setOutletStatus(status);
         outletRepository.save(outlet);
     }

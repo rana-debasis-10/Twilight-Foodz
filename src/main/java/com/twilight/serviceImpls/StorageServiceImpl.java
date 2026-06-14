@@ -45,13 +45,12 @@ public class StorageServiceImpl implements StorageService {
                             .build(),
                     RequestBody.fromInputStream(file.getInputStream(), file.getSize())
             );
-        } catch (AwsServiceException | SdkClientException e) {
-            log.error(e.getMessage());
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new SomethingWentWrongException(e.getMessage());
+        } catch (AwsServiceException | SdkClientException | IOException e) {
+            throw new SomethingWentWrongException(
+                    e.getMessage(),
+                    "Unable to upload image"
+            );
         }
-
         return key;
     }
 
@@ -64,12 +63,14 @@ public class StorageServiceImpl implements StorageService {
                             .key(key)
                             .build()
             ).asByteArray();
-        } catch (AwsServiceException e) {
-            log.error(e.getMessage());
-            throw new NotFoundException(e.getMessage());
-        } catch (SdkClientException e) {
-            log.error(e.getMessage());
-            throw new SomethingWentWrongException(e.getMessage());
+        } catch (AwsServiceException |SdkClientException e) {
+            throw new NotFoundException(
+                    e.getMessage()
+                    ,"Image not found");
+        } catch (Exception e) {
+            throw new SomethingWentWrongException(
+                    e.getMessage()
+                    ,"Something went wrong");
         }
 
         return new ByteArrayResource(data);
@@ -83,12 +84,15 @@ public class StorageServiceImpl implements StorageService {
                             .key(key)
                             .build()
             );
-        } catch (AwsServiceException e) {
-            log.error(e.getMessage());
-            throw new NotFoundException(e.getMessage());
-        } catch (SdkClientException e) {
-            log.error(e.getMessage());
-            throw new SomethingWentWrongException(e.getMessage());
+        } catch (AwsServiceException |SdkClientException e) {
+            throw new NotFoundException(
+                    e.getMessage()
+                    ,"Image not found");
+        } catch (Exception e) {
+            throw new SomethingWentWrongException(
+                    e.getMessage()
+                    ,"Something went wrong");
         }
+
     }
 }

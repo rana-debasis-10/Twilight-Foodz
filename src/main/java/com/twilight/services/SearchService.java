@@ -9,4 +9,6 @@ import java.util.List;
 public interface SearchService {
     public List<OutletR> findNearestOutlets(Double lat, Double lon);
     public List<FoodR> getFoods(Integer outletId);
+
+    boolean isDeliverable(Double lat, Double lon, Integer outletId);
 }

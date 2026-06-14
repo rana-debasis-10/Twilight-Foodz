@@ -14,4 +14,12 @@ public interface RestaurantMapper {
     @Mapping(target = "image", ignore =true)
     @Mapping(target = "menuAdded", expression = "java(false)")
     Restaurant toRestaurant(RestaurantR restaurant);
+
+    @Mapping(target = "restaurant.merchant", ignore = true)
+    @Mapping(target = "restaurant.outlet" ,ignore = true )
+    @Mapping(target = "restaurant.products", ignore =true)
+    @Mapping(target = "restaurant.id", ignore =true)
+    @Mapping(target = "restaurant.image", ignore =true)
+    @Mapping(target = "restaurant.menuAdded", ignore = true)
+    RestaurantR toDto(Restaurant restaurant);
 }

@@ -1,14 +1,11 @@
 package com.twilight.endPoints;
 
 import com.twilight.annotations.MobileNumber;
-import com.twilight.dataTransferObjects.Address;
+import com.twilight.dataTransferObjects.*;
 
-import com.twilight.dataTransferObjects.OutletDetailed;
-import com.twilight.dataTransferObjects.OutletR;
 import com.twilight.exceptions.UnAuthorizedException;
 import com.twilight.mappers.MerchantMapper;
 import com.twilight.mappers.RestaurantMapper;
-import com.twilight.dataTransferObjects.Point;
 import com.twilight.objects.OutletInvitation;
 import com.twilight.services.*;
 import com.twilight.utils.UserContext;
@@ -35,6 +32,9 @@ public class RestaurantEndpoints {
     @Autowired
     GeoCodingService geoCoding;
 
+    @Autowired
+    RestaurantMapper restaurantMapper;
+
 
     @PostMapping("/create/outlet")
     @Transactional
@@ -51,6 +51,14 @@ public class RestaurantEndpoints {
         String merchantMobNo = userContext.getMobNo();
         return merchantService.inviteManager(merchantMobNo,inviteeMobNo,outletId);
     }
+    @GetMapping("/view")
+    @Transactional
+    @Validated
+    public RestaurantR showRestaurant(){
+        String merchantMobNo = userContext.getMobNo();
+        return restaurantMapper.toDto(merchantService.findRestaurantByMobNo(merchantMobNo));
+    }
+
     @PostMapping("/outlet/invite/other")
     @Transactional
     @Validated
@@ -60,9 +68,9 @@ public class RestaurantEndpoints {
             @RequestParam("i")Integer invitationId
     ) throws BadRequestException {
         String merchantMobNo = userContext.getMobNo();
-        return merchantService.inviteOtherManager(merchantMobNo,inviteeMobNo,outletId,invitationId);
+        return merchantService.inviteOtherManager(merchantMobNo,inviteeMobNo,outletId);
     }
-    @PostMapping("/outlet/viewAll")
+    @GetMapping("/outlet/viewAll")
     @Transactional
     @Validated
     public List<OutletDetailed> viewAllOutlets(){

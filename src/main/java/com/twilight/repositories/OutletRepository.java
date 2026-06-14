@@ -23,23 +23,24 @@ public interface OutletRepository extends JpaRepository<Outlet,Integer> {
                     FROM outlet o
                     JOIN restaurant r
                     ON o.restaurant_id = r.id
+                    WHERE o.outlet_status = open
                     ORDER BY ST_SetSRID(
                     ST_MakePoint(o.longitude, o.latitude),
                     4326
                     ) <-> ST_SetSRID(
-                    ST_MakePoint(:longitude,:lat),
+                    ST_MakePoint(:lon,:lat),
                     4326
                     )
                     LIMIT :limit
                     """,
             nativeQuery = true)
-    List<OutletR> findNearestOutlets(
+    List<Object[]> findNearestOutlets(
             @Param("lat") double lat,
-            @Param("longitude") double lon,
+            @Param("lon") double lon,
             @Param("limit") int limit
     );
 
-    List<Outlet> findByRestaurantId(
+    List<Outlet> findAllByRestaurantId(
             Integer restaurantId
     );
 
@@ -63,12 +64,12 @@ public interface OutletRepository extends JpaRepository<Outlet,Integer> {
 
     @Query("""
                 SELECT new com.twilight.dataTransferObjects.OutletR(
-                o.id AS outletId,
-                r.name AS restaurantName,
-                r.image AS restaurantImage,
-                o.outletStatus AS outletStatus,
-                o.latitude AS latitude,
-                o.longitude AS longitude
+                o.id ,
+                r.name,
+                r.image ,
+                o.outletStatus ,
+                o.latitude,
+                o.longitude
                 )
                 FROM Outlet o
                 JOIN o.restaurant r
@@ -79,13 +80,13 @@ public interface OutletRepository extends JpaRepository<Outlet,Integer> {
     );
     @Query("""
                 SELECT new com.twilight.dataTransferObjects.OutletDetailed(
-                    o.id AS id,
-                    r.name AS restaurantName,
-                    r.image AS restaurantImage,
-                    o.outletStatus AS outletStatus,
-                    o.latitude AS latitude,
-                    o.longitude AS longitude
-                    o.managerMobNo AS managerMobNo
+                o.id,
+                r.name ,
+                r.image ,
+                o.outletStatus,
+                o.latitude,
+                o.longitude ,
+                o.managerMobNo
                 )
                 FROM Outlet o
                 JOIN o.restaurant r

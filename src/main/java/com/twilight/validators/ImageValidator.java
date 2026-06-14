@@ -1,5 +1,6 @@
 package com.twilight.validators;
 
+import com.twilight.exceptions.BadRequestException;
 import com.twilight.exceptions.InvalidFileException;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,27 @@ public class ImageValidator {
             "image/webp"
     );
     public void validateImages(List<MultipartFile> images) throws IOException {
-        Tika tika = new Tika();
-        for (MultipartFile file : images) {
-            String mimeType =
-                    tika.detect(file.getInputStream());
-            if (!ALLOWED_TYPES.contains(mimeType)) {
-                throw new InvalidFileException("Invalid file type : " + file.getOriginalFilename());
-            }
+        for (MultipartFile image : images) {
+            validateImage(image);
         }
     }
-    public boolean validateImage(MultipartFile file) throws IOException {
+    public void validateImage(MultipartFile file) throws IOException {
+
         String mimeType =
                 tika.detect(file.getInputStream());
+        if(file.isEmpty())
+            throw new BadRequestException(
+                    "User trying to upload file type of this"
+                            + file.getOriginalFilename()
+                    ,"Invalid file type :"
+                    + file.getOriginalFilename());
 
-        return !ALLOWED_TYPES.contains(mimeType);
+        if(!ALLOWED_TYPES.contains(mimeType))
+            throw new InvalidFileException(
+                    "User trying to upload file type of this"
+                            + file.getOriginalFilename()
+                    ,"Invalid file type :"
+                    + file.getOriginalFilename());
+
     }
 }

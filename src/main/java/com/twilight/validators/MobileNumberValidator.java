@@ -13,6 +13,9 @@ public class MobileNumberValidator implements ConstraintValidator<MobileNumber, 
 
     @Override
     public boolean isValid(String mobileNumber, ConstraintValidatorContext context) {
+        if(mobileNumber== null){
+            return true;
+        }
         return Pattern.matches(MOBILE_PATTERN, mobileNumber);
     }
 }

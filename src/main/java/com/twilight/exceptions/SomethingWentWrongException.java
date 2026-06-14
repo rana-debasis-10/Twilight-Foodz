@@ -1,7 +1,12 @@
 package com.twilight.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public class SomethingWentWrongException extends RuntimeException {
-    public SomethingWentWrongException(String message) {
+    private final String error;
+    public SomethingWentWrongException(String message, String error) {
         super(message);
+        this.error = error;
     }
 }

@@ -31,6 +31,8 @@ dependencies {
 	//Spring Security Dependency
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
+	implementation("org.checkerframework:checker-qual:3.49.5")
+
 	//Spring Starter Web Dependency
 	implementation("org.springframework.boot:spring-boot-starter-web")
 

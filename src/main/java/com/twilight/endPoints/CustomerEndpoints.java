@@ -36,7 +36,7 @@ public class CustomerEndpoints {
     @Autowired
     UserContext user;
 
-    @GetMapping("/load")
+    @GetMapping("/customer/login")
     @Validated
     @Transactional
     CustomerR loadCustomer() {

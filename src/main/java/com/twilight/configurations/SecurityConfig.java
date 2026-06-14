@@ -22,14 +22,47 @@ public class SecurityConfig {
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/auth"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                "/account/**",
+                                "/account"
+                        ).hasRole("undefined")
+
+                        // Merchant APIs
+                        .requestMatchers(
+                                "/restaurant/**",
+                                "/restaurant"
+                        ).hasRole("merchant")
+                        .requestMatchers(
+                                "/manager/**",
+                        "/manager"
+                        ).hasRole("manager")
+                        .requestMatchers(
+                                "/customer/**",
+                                "/customer",
+                                "/search",
+                                "/search/**",
+                                "/images/**",
+                                "/images"
+                        ).hasAllRoles("customer","merchant","manager")
+
+                        .anyRequest().authenticated()
                 )
+
                 .httpBasic(AbstractHttpConfigurer::disable)
+
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class

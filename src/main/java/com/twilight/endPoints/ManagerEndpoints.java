@@ -34,14 +34,7 @@ public class ManagerEndpoints {
     @Autowired
     JwtService jwtService;
 
-    @GetMapping("/login")
-    @Transactional
-    @Validated
-    public String managerLogin(){
-        String mobNo = user.getMobNo();
-        Integer outletId = managerService.findLinkedOutlet(mobNo);
-        return jwtService.generateToken(mobNo, Role.manager, outletId);
-    }
+
 
     @GetMapping("/update/food/price")
     @Validated
@@ -49,7 +42,9 @@ public class ManagerEndpoints {
     void updateFoodPrice(@RequestParam Integer foodId, Double price) {
         Integer outletId = (Integer)user.getCredential();
         if(outletId== null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access",
+                    "No Linked Outlet");
         managerService.updateFoodPrice(outletId,foodId,price);
     };
 
@@ -59,7 +54,9 @@ public class ManagerEndpoints {
     void makeFoodAvailable(@RequestParam Integer foodId) throws ChangeSetPersister.NotFoundException{
         Integer outletId = (Integer) user.getCredential();
         if(outletId== null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access"
+                    ,"No Linked Outlet");
         managerService.makeFoodAvailable(outletId,foodId);
     };
 
@@ -67,7 +64,9 @@ public class ManagerEndpoints {
     void makeFoodUnavailable(@RequestParam(required = true) Integer foodId) throws ChangeSetPersister.NotFoundException{
         Integer outletId = (Integer)user.getCredential();
         if(outletId== null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access"
+                    ,"No Linked Outlet");
         managerService.makeFoodUnavailable(outletId,foodId);
     };
 
@@ -75,7 +74,9 @@ public class ManagerEndpoints {
     void openOutlet()throws ChangeSetPersister.NotFoundException{
         Integer outletId = (Integer) user.getCredential();
         if(outletId== null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access"
+                    ,"No Linked Outlet");
         managerService.openOutlet(outletId);
     };
 
@@ -83,21 +84,27 @@ public class ManagerEndpoints {
     void closeOutlet()throws ChangeSetPersister.NotFoundException{
         Integer outletId = (Integer) user.getCredential();
         if(outletId== null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access"
+                    ,"No Linked Outlet");
         managerService.closeOutlet(outletId);
     };
     @GetMapping("/view/outlet")
     OutletR viewOutlet() throws BadRequestException {
         Integer outletId = (Integer) user.getCredential();
         if(outletId==null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access"
+                    ,"No Linked Outlet");
         return managerService.viewOutlet(outletId);
     }
     @GetMapping
     List<FoodR> viewAllFoods(){
         Integer outletId = (Integer) user.getCredential();
         if(outletId==null)
-            throw new UnAuthorizedException("No Linked Outlet");
+            throw new UnAuthorizedException(
+                    "User trying unautherized outlet access"
+                    ,"No Linked Outlet");
         return managerService.getAllFoods(outletId);
     }
 }

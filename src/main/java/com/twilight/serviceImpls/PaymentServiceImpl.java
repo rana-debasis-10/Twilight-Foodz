@@ -29,6 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Override
     public void verifyPayment(Payment payment) {
         JSONObject options = new JSONObject();
         options.put("order_id", payment.orderId());
@@ -39,18 +40,24 @@ public class PaymentServiceImpl implements PaymentService {
             Utils.verifyPaymentSignature(options, keySecret);
         }
         catch (RazorpayException e){
-           throw new UnAuthorizedException(e.getMessage());
+           throw new UnAuthorizedException(
+                   "User trying unauthorized payment",
+                   e.getMessage());
         }
     }
 
-    public void handleWebhook(String payload, String signature){
+    @Override
+    public void verifyWebhook(String payload, String signature) {
         try {
             Utils.verifyWebhookSignature(payload, signature, webhookSecret);
         } catch (RazorpayException e) {
-            throw new UnAuthorizedException(e.getMessage());
+            throw new UnAuthorizedException(
+                    "User trying unauthorized payment",
+                    e.getMessage());
         }
     }
 
+    @Override
     public Map<String, Object> createPayment(Double total, String currency, String receipt) throws RazorpayException {
         Map<String, Object> response = new HashMap<>();
         RazorpayClient client = new RazorpayClient(keyId, keySecret);

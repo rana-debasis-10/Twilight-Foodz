@@ -17,6 +17,6 @@ public class UserContext {
     private final Object credential;
     UserContext(){
         this.mobNo = (String) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
-        this.credential = (String)SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        this.credential = SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 }

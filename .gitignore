@@ -42,3 +42,6 @@ rzp-key.csv
 *.env
 dump.txt
 *.json
+*.txt
+.run/
+test*

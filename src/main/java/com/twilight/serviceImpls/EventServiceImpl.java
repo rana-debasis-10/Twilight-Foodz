@@ -39,8 +39,7 @@ public class EventServiceImpl implements EventService {
         try {
             kafka.send(topic,event);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new SomethingWentWrongException("");
+            throw new SomethingWentWrongException(e.getMessage(),"Unable to complete the request");
         }
     }
     @KafkaListener(
@@ -53,12 +52,12 @@ public class EventServiceImpl implements EventService {
                     .findById(request.productId())
                     .orElse(null);
             List<Outlet> outlets = outletRepository
-                    .findByRestaurantId(
+                    .findAllByRestaurantId(
                             request.restaurantId()
                     );
 
             if(product==null || outlets.isEmpty())
-                return;
+                throw new RuntimeException("Product not found");
             List<Food> foods= new ArrayList<>();
             outlets.forEach(outlet->{
                 Food food = new Food();
@@ -68,7 +67,7 @@ public class EventServiceImpl implements EventService {
             });
             foodRepository.saveAll(foods);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("\n\n{}\n\n",e.getMessage());
         }
 
     }

@@ -35,8 +35,9 @@ public class MessageServiceImpl implements MessageService {
         try {
             redis.opsForValue().set(mobNo, otp);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new SomethingWentWrongException("Some Service is unavailable at this moment");
+            throw new SomethingWentWrongException(
+                    e.getMessage()
+                    ,"Some Service is unavailable at this moment");
         }
 
         HttpHeaders headers = new HttpHeaders();
@@ -58,10 +59,16 @@ public class MessageServiceImpl implements MessageService {
                             String.class
                     );
         } catch (RuntimeException e) {
-            throw new NotFoundException("This Service is currently under maintenance");
+            throw new NotFoundException(
+                    e.getMessage()
+                    ,"This Service is currently under maintenance"
+            );
         }
-        if(response.getStatusCode().is2xxSuccessful())
-            throw new SomethingWentWrongException("SMS server is unable to send OTP currently");
+        if(!response.getStatusCode().is2xxSuccessful())
+            throw new SomethingWentWrongException(
+                    "SMS Server failed to send message",
+                    "SMS server is unable to send OTP currently"
+            );
 
     }
 
@@ -70,8 +77,10 @@ public class MessageServiceImpl implements MessageService {
         try {
             return Objects.equals(redis.opsForValue().get(mobNo), otp.toString());
         } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new SomethingWentWrongException("Some Service is unavailable at this moment");
+            throw new SomethingWentWrongException(
+                    e.getMessage(),
+                    "Some Service is unavailable at this moment"
+            );
         }
     }
 

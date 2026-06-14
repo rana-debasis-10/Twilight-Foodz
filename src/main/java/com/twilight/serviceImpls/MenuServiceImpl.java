@@ -38,7 +38,10 @@ public class MenuServiceImpl implements MenuService {
         return restaurantRepository
                 .findByMerchantMobNo(mobNo)
                 .orElseThrow(
-                        ()->new NotFoundException("No Restaurant linked to your mobile number")
+                        ()->new NotFoundException(
+                                "User is trying to find restaurant",
+                                "Not restaurant linked to your mobile number"
+                        )
                 );
     }
 
@@ -65,6 +68,6 @@ public class MenuServiceImpl implements MenuService {
     public void checkForMenuAdded(String mobNo) throws UnAuthorizedException {
         Restaurant restaurant = findRestaurantByMobNo(mobNo);
         if(restaurant.isMenuAdded())
-            throw new UnAuthorizedException("Menu can be added once only");
+            throw new UnAuthorizedException("User is trying to add menu multiple times","Menu can only be added once");
     }
 }

@@ -6,6 +6,7 @@ import com.twilight.dataTransferObjects.Point;
 import com.twilight.repositories.FoodRepository;
 import com.twilight.repositories.OutletRepository;
 import com.twilight.services.SearchService;
+import com.twilight.types.OutletStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -25,18 +26,26 @@ public class SearchServiceImpl implements SearchService {
             Double lat,
             Double lon) {
 
-        return outletRepository
-                .findNearestOutlets(lat, lon, 300)
-                .stream()
-                .filter(outlet ->
-                        distanceKm(
-                                lat,
-                                lon,
-                                outlet.latitude(),
-                                outlet.longitude()
-                        ) <= 5.0
-                )
-                .toList();
+        return
+                outletRepository.findNearestOutlets(lat, lon, 300)
+                        .stream()
+                        .map(row -> new OutletR(
+                                ((Number) row[0]).intValue(),
+                                (String) row[1],
+                                (String) row[2],
+                                OutletStatus.valueOf((String) row[3]),
+                                ((Number) row[4]).doubleValue(),
+                                ((Number) row[5]).doubleValue()
+                        ))
+                        .filter(outlet ->
+                                distanceKm(
+                                        lat,
+                                        lon,
+                                        outlet.latitude(),
+                                        outlet.longitude()
+                                ) <= 5.0
+                        )
+                        .toList();
     }
 
     @Override
@@ -44,7 +53,7 @@ public class SearchServiceImpl implements SearchService {
         return foodRepository.findMenuByOutletId(outletId);
     }
 
-    public static double distanceKm(
+    private static double distanceKm(
             double lat1,
             double lon1,
             double lat2,
@@ -73,7 +82,8 @@ public class SearchServiceImpl implements SearchService {
 
         return EARTH_RADIUS * c;
     }
-    public boolean isDeliverable(Double lat , Double lon, Integer outletId){
+    @Override
+    public boolean isDeliverable(Double lat, Double lon, Integer outletId){
         Point location = outletRepository.findLocationByIdAndStatus(outletId);
         return distanceKm(lat,lon,location.latitude(),location.longitude()) <= 5.0;
     }

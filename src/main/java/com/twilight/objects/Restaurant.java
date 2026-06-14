@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,14 @@ public class Restaurant {
     private Integer id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotNull
     private String image;
 
     @NotNull
+    @Column(unique = true)
     private String fssai;
 
     @OneToOne

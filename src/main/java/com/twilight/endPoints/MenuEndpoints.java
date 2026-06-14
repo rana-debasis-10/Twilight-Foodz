@@ -56,8 +56,8 @@ public class MenuEndpoints {
         String mobNo = userContext.getMobNo();
 
 
-        if(products.size()==images.size() && products.size()>100){
-            throw new BadRequestException("Must have equal number of images as products and should be less than 100");
+        if(products.size()==images.size() || products.size()>100){
+            throw new BadRequestException("Must have equal number of images as products and should be less than 100", "");
         }
 
         imageValidator.validateImages(images);
@@ -80,8 +80,8 @@ public class MenuEndpoints {
             if (image == null) {
                 throw new BadRequestException(
                         "Image not found: "
-                                + product.imageFileName()
-                );
+                                + product.imageFileName(),
+                        "");
             }
 
             String objectName =

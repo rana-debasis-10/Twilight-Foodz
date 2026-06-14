@@ -32,7 +32,7 @@ public class AuthEndpoints {
         if(messageService.verifyOtp(mobNo, otp))
                 return jwtService.generateToken(mobNo, Role.undefined);
         else
-                throw new UnAuthorizedException("OTP not matching");
+                throw new UnAuthorizedException("User is trying to giving wrong OTP","OTP not matching");
 
     }
 

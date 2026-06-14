@@ -3,6 +3,7 @@ package com.twilight.serviceImpls;
 import com.twilight.dataTransferObjects.Address;
 import com.twilight.dataTransferObjects.Point;
 import com.twilight.exceptions.GeocodingError;
+import com.twilight.exceptions.SomethingWentWrongException;
 import com.twilight.services.GeoCodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import tools.jackson.databind.JsonNode;
@@ -23,21 +25,30 @@ public class GeoCodingServiceImpl implements GeoCodingService {
     @Override
     public Point getLocation(Address address) throws GeocodingError
     {
-        String headerName = "User-Agent";
-        String headerValue = "TwilightFoodDelivery/1.0";
+        String response = null;
+        try {
+            String headerName = "User-Agent";
+            String headerValue = "TwilightFoodDelivery/1.0";
 
-        HttpEntity<Void> request = createRequest(headerName,headerValue);
-        String url = generateUrl(address.state(),address.city(),address.pinCode(),address.street(),address.landMark());
+            HttpEntity<Void> request = createRequest(headerName,headerValue);
+            String url = generateUrl(
+                    address.state(),
+                    address.city(),
+                    address.pinCode(),
+                    address.street(),
+                    address.landMark()
+            );
 
 
-        String response = new RestTemplate().exchange(
-                url,
-                HttpMethod.GET,
-                request,
-                String.class
-        ).getBody();
-
-
+            response = new RestTemplate().exchange(
+                    url,
+                    HttpMethod.GET,
+                    request,
+                    String.class
+            ).getBody();
+        } catch (RestClientException e) {
+            throw new SomethingWentWrongException(e.getMessage(),"Operation failed");
+        }
         return formatForLatAndLon(response);
     }
 
@@ -74,7 +85,7 @@ public class GeoCodingServiceImpl implements GeoCodingService {
         JsonNode root = new ObjectMapper().readTree(response);
 
         if(root.isEmpty())
-            throw new GeocodingError("Address not found");
+            throw new GeocodingError("Address not found for the request check the query","Address not found");
         double lat =
                 root.get(0)
                         .get("lat")
@@ -82,7 +93,7 @@ public class GeoCodingServiceImpl implements GeoCodingService {
 
         double lon =
                 root.get(0)
-                        .get("longitude")
+                        .get("lon")
                         .asDouble();
         return new Point(lat,lon);
     }
