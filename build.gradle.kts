@@ -5,8 +5,11 @@ plugins {
 }
 
 group = "com"
-version = "0.0.1"
+version = "1.0.0"
 description = "Mini Zomato with contracted relational model"
+tasks.jar {
+	enabled = false
+}
 
 java {
 	toolchain {
@@ -59,6 +62,7 @@ dependencies {
 
 	//MapStruct Dependency
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
+
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
 	//Lombok Dependency
@@ -69,9 +73,6 @@ dependencies {
 
 	//Mapstruct-Lombok Binding
 	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
-
-	//MySQL Connector Dependency
-	runtimeOnly("com.mysql:mysql-connector-j");
 
 	//PostgreSQL Connector Dependency
 	runtimeOnly("org.postgresql:postgresql:42.7.11")
@@ -88,6 +89,19 @@ dependencies {
 
 	//JWT to JSON converter
     runtimeOnly ("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
+
+	testImplementation(
+		"org.springframework.boot:spring-boot-starter-test"
+	)
+
+	testImplementation(
+		"org.mockito:mockito-junit-jupiter:5.18.0"
+	)
+
+	testImplementation(
+		"org.springframework.security:spring-security-test"
+	)
 
 
 
