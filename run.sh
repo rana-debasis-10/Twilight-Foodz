@@ -1,19 +1,13 @@
 #!/bin/bash
 clear
-# shellcheck disable=SC2164
-cd ~/workspace/Twilight.org/scripts/
-
-# shellcheck disable=SC2181
-rm dump.txt &>/dev/null
-touch dump.txt &>/dev/null
-
-./dump.sh > dump.txt
-
-source ./export.sh
+docker compose down
 
 # shellcheck disable=SC2164
-./docker-check.sh
+./gradlew clean
+./gradlew build -x test
+docker buildx build -t twilight-backend .
 
-# shellcheck disable=SC2164
-cd ~/workspace/Twilight.org/scripts/
-./run-application.sh
+source .env
+
+docker compose up -d
+docker compose logs -f backend

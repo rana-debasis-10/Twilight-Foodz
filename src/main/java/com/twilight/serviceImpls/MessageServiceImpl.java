@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -32,13 +33,17 @@ public class MessageServiceImpl implements MessageService {
     public void sendOtp(String mobNo) throws NotFoundException , SomethingWentWrongException {
 
         String otp = generateOtp();
+
         try {
             redis.opsForValue().set(mobNo, otp);
         } catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
             throw new SomethingWentWrongException(
                     e.getMessage()
                     ,"Some Service is unavailable at this moment");
         }
+
+
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -67,7 +72,7 @@ public class MessageServiceImpl implements MessageService {
         if(!response.getStatusCode().is2xxSuccessful())
             throw new SomethingWentWrongException(
                     "SMS Server failed to send message",
-                    "SMS server is unable to send OTP currently"
+                    "This Service is currently under maintenance"
             );
 
     }

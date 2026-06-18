@@ -16,7 +16,7 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -24,22 +24,10 @@ spring:
 
 
   #Redis Configuration -------------------------------------------#
-  redis:
-    host: localhost
-    port: 6379
-
-  #Apache Kafka Configuration --------------------------------------#
-  kafka:
-    bootstrap-servers: localhost:9092
-
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.support.serializer.JsonSerializer
-
-    consumer:
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.support.serializer.JsonDeserializer
+  data:
+    redis:
+      host: redis
+      port: 6379
 
 
 #JWT Security ----------------------------------------------------#
@@ -77,6 +65,8 @@ storage:
 logging:
   level:
     org.springframework.web: DEBUG
+    org.springframework.data.redis: DEBUG
+    io.lettuce.core: DEBUG
 
 
 #Server Configuration ---------------------------------------------#
